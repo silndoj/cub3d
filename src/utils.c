@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/17 21:45:44 by tndreka          ###   ########.fr       */
+/*   Created: 2025/03/17 21:22:54 by tndreka           #+#    #+#             */
+/*   Updated: 2025/03/17 21:42:03 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "inc/cub3d.h"
 
-int main(int ac, char *av[])
+int ft_strlen(char *str)
 {
-	// printf("fillimi i cub3d\n");
-	if (parse_cub(ac, av) == 1)
-		return (1);
-	return (0);
+    int i;
+
+    i = 0;
+    while (str[i])
+        i++;
+    return (i);
+}
+
+int ft_strcmp(char *s1, char *s2)
+{
+    int i;
+
+    i = 0;
+    while (s1[i] && s2[i] && s1[i] == s2[i])
+        i++;
+    return (s1[i] - s2[i]);
 }

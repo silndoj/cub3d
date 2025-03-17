@@ -1,7 +1,7 @@
 EXEC := cub3D
 
 CC					=		cc
-CFLAGS				=   -g -Wextra -Wall -Werror 
+CFLAGS				=   -g -Wextra -Wall -Werror
 
 SRC_DIR		= 	src
 SRC 		= 	$(wildcard $(SRC_DIR)/*.c)

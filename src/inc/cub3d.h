@@ -6,13 +6,13 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/17 21:37:22 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/03/17 21:56:05 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef CUBE3D_H
-# define CUBE3D_H
+#ifndef CUB3D_H
+# define CUB3D_H
 
 /*
 ========== INCLUDES =========
@@ -43,7 +43,7 @@ typedef struct s_game
  *
  * */
 int parse_cub(int argc, char **argv);
-int check_file(char *file);
+int check_map(char *file);
 
 
 

@@ -10,10 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/cub3d.h"
-#include "inc/get_next_line.h"
-#include "inc/garbage_collector.h"
-
+#include "../inc/cub3d.h"
 
 int parse_cub(int ac, char *av[], t_parser *parser)
 {

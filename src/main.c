@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: tndreka <tndreka@student.42heilbronn.fr>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 12:52:51 by tndreka           #+#    #+#             */
+/*   Updated: 2025/03/18 16:10:05 by tndreka          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
@@ -12,11 +24,13 @@
 
 
 #include "inc/cub3d.h"
+#include "inc/garbage_collector.h"
 
 int main(int ac, char *av[])
 {
-	// printf("fillimi i cub3d\n");
-	if (parse_cub(ac, av) == 1)
-		return (1);
-	return (0);
+    t_parser parser;
+
+	if (parse_cub(ac, av, &parser))
+		return (free_allocations(), 1);
+	return (free_allocations(), 0);
 }

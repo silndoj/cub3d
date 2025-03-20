@@ -6,13 +6,13 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:16:26 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/17 22:06:28 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/03/20 17:40:54 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-int parse_cub(int ac, char *av[], t_parser *parser)
+int map_build(int ac, char *av[], t_parser *parser)
 {
     if (ac != 2)
     {

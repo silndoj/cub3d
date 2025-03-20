@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/19 23:47:42 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/03/20 18:03:28 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,9 @@ int main(int ac, char *av[])
 {
     t_game game;
 
-    if (parse_cub(ac, av, &game.parser)) 
-    {
-        free_allocations(); // Assuming this function exists and works
-        return 1;
-    }
-    
+    if (map_build(ac, av, &game.parser)) 
+        return (free_allocations(),1);
     run_game(&game);
-
-    free_allocations(); // Free any allocated memory
-    return 0;
+    return (free_allocations(),0);
 }
 

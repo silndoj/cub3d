@@ -1,64 +1,59 @@
-EXEC := cub3D
+EXEC		:= cub3D
 
-CC					=		cc
-CFLAGS				=   -g -Wextra -Wall -Werror
+CC			= cc
+CFLAGS		= -g -Wextra -Wall -Werror
 
-SRC_DIR		= 	src
-SRC 		= 	$(wildcard $(SRC_DIR)/*.c)
+LIBFT		= src/inc/libft/libft.a
+LIBFT_D		= src/inc/libft
 
-PRS_DIR		= 	src/parser
-PRS			=	$(wildcard $(PRS_DIR)/*.c)
+SRC_DIR		= src
+SRC			= $(shell find $(SRC_DIR) -type f -name "*.c" | sed 's|$(SRC_DIR)/||')
 
-OBJ_SRC		=	inv/obj
-OBJ_PRS		=	inv/obj/parser
+OBJ_DIR		= obj
+OBJ			= $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
-OBJ			= 	$(patsubst $(SRC_DIR)/%.c, $(OBJ_SRC)/%.o, $(SRC))
-OBJ_EXTRA	=	$(patsubst $(PRS_DIR)/%.c, $(OBJ_PRS)/%.o, $(PRS))
-
-GREEN := \033[0;32m
-NC := \033[0m
+GREEN		:= \033[0;32m
+NC			:= \033[0m
 
 all: $(EXEC)
 
-$(EXEC):MLX42 $(OBJ) $(OBJ_EXTRA)
-				@echo "Linking $(EXEC)..."
-				@$(CC) $(CFLAGS) -o $(EXEC) $(OBJ) $(OBJ_EXTRA) -L./inv/MLX42/build/ -lmlx42 -Iinclude -lglfw
-				@echo -e "$(GREEN)Build successful!$(NC)"
+$(LIBFT):
+	@cd src/inc/libft && make -s
+
+$(EXEC): MLX42 $(LIBFT) $(OBJ)
+	@echo "$(NC)LINKING : $(GREEN)CUB3D APP"
+	@$(CC) $(CFLAGS) -o $(EXEC) $(OBJ) -LMLX42/build -lmlx42 -IMLX42/include -lglfw -Lsrc/inc/libft -lft
+	@echo "$(NC)BUILD : $(GREEN)SUCCESSFUL"
 
 MLX42:
-	@if [ ! -d "inv/MLX42" ]; then \
+	@if [ ! -d "MLX42" ]; then \
 		echo "Cloning MLX42"; \
-		git clone https://github.com/codam-coding-college/MLX42.git inv/MLX42; \
-		else \
+		git clone https://github.com/codam-coding-college/MLX42.git MLX42; \
+	else \
 		echo "MLX42 already cloned"; \
-		fi
-	@cd inv/MLX42 && cmake -B build && cmake --build build -j4
-	@echo -e "$(GREEN)Clone and Build successful!$(NC)"
+	fi
+	@cd MLX42 && cmake -B build && cmake --build build -j4
+	@echo "$(NC)CLONE & BUILD : SUCCESSFUL$(NC)"
 
+mlx: MLX42
 
-mlx:		MLX42
-
-
-$(OBJ_SRC)/%.o : $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_SRC)
-	@mkdir -p $(OBJ_PRS)
-	@echo "Compiling $<..."
-	$(CC) $(CFLAGS) -c $< -o $@
-
-$(OBJ_PRS)/%.o : $(PRS_DIR)/%.c
-	@echo "Compiling $<..."
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(dir $@)
+	@echo "$(NC)Compiling $(GREEN)$<..."
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	@echo "Cleaning up object files..."
-	rm -rf $(OBJ_SRC)
-	rm -rf $(OBJ_PRS)
+	@rm -rf $(OBJ_DIR)
+	@echo "$(NC)CLEANING : $(GREEN) $(OBJ_DIR)/*.o"
+	@cd src/inc/libft && make clean -s
+	@echo "$(NC)CLEANING : $(GREEN) $(LIBFT_D)/*.o"
 
 fclean: clean
-	@echo "Cleaning up $(EXEC)..."
-	rm -f $(EXEC)
-	rm -rf inv
+	@cd src/inc/libft && make fclean -s
+	@echo "$(NC)CLEANING : $(GREEN) CUB3d"
+	@rm -f $(EXEC)
 
 re: fclean all
 
 .PHONY: all clean fclean re
+

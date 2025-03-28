@@ -1,6 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
+/*   map_build.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tndreka <tndreka@student.42heilbronn.fr>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
+/*   Updated: 2025/03/28 18:54:56 by tndreka          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
 /*   parse_cub.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
@@ -43,8 +55,10 @@ int check_map(char *file, t_parser *parser)
         return (1);
 	}
     copy_map(fd, parser);
-    print_map(parser);
+    //print_map(parser);
     close(fd);
+    if (parse_textures(parser))
+        return (1);
     return (0);
 }
 

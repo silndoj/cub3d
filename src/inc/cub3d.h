@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.fr>   +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/28 18:55:02 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:24:33 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/20 17:42:39 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/04/30 02:38:18 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdbool.h>
+# include <errno.h>
 
 
 # include "../../MLX42/include/MLX42/MLX42.h"
@@ -57,13 +58,10 @@ typedef struct s_game
 	t_parser	parser;
 }   t_game;
 
-//MAP_BUILD
-int     map_build(int argc, char **argv, t_parser *parser);
-int     check_map(char *file, t_parser *parser);
+//MAP_BUILD.C
+int map_build(int argc, char **argv, t_parser *parser);
+int check_map(char *file, t_parser *parser);
 void    copy_map(int fd, t_parser *parser);
-void    print_map(t_parser *parser);
-//INIT_MAP
-void    init_textures(t_parser *parser);
-//PARSE_TEXTURES
-int     parse_textures(t_parser *parser);
+void print_map(t_parser *parser);
+
 #endif

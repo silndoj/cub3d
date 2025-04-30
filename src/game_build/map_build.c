@@ -39,7 +39,7 @@ int check_map(char *file, t_parser *parser)
     }
     fd = open(file, O_RDONLY);
     if (fd == -1)
-		errno_exit();
+		return (errno_exit(), 1);
     copy_map(fd, parser);
     //print_map(parser);
     close(fd);

@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/04/30 16:24:33 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:42:46 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,14 @@ typedef struct s_game
 }   t_game;
 
 //MAP_BUILD.C
-int map_build(int argc, char **argv, t_parser *parser);
-int check_map(char *file, t_parser *parser);
+int		map_build(int argc, char **argv, t_parser *parser);
+int 	check_map(char *file, t_parser *parser);
 void    copy_map(int fd, t_parser *parser);
-void print_map(t_parser *parser);
+void 	print_map(t_parser *parser);
+int    parse_textures(t_parser *parser);
+
+
+//Util Box
+int	errno_exit(void);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_cub.c                                        :+:      :+:    :+:   */
+/*   map_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:16:26 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/20 17:40:54 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/04/30 02:38:51 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,12 @@ int check_map(char *file, t_parser *parser)
     
     if (i < 4 || ft_strcmp(file + i - 4, ".cub") != 0)
     {
-        printf("Error: Run ./cub3d map_name.cub\n");
+        printf("Error: Try ./cub3d map_name.cub\n");
         return (1);
     }
     fd = open(file, O_RDONLY);
     if (fd == -1)
-	{
-		printf("Error: File not found\n");
-        return (1);
-	}
+		errno_exit();
     copy_map(fd, parser);
     print_map(parser);
     close(fd);

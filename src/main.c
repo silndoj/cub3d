@@ -6,15 +6,11 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/04/30 17:32:48 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/03 21:07:08 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cub3d.h"
-
-#define BPP sizeof(int32_t)
-
-
 
 void	draw_square(int x, int y, int size, int color, mlx_image_t *img)
 {
@@ -28,22 +24,40 @@ void	draw_square(int x, int y, int size, int color, mlx_image_t *img)
 		mlx_put_pixel(img, x, y + i, color);
 	i = 0;
 	while (i++ < size)
-		mlx_put_pixel(img, x + size, y, color);
+		mlx_put_pixel(img, x + size, y + i-1, color);
 	i = 0;
 	while (i++ < size)
-		mlx_put_pixel(img, x, y + size, color);
+		mlx_put_pixel(img, x+ i - 1, y + size, color);
 }
 
+void	ft_hook(void *param)
+{
+	t_game *game;
+	game = param;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+		game->player.py -= 5;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+		game->player.py += 5;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
+		game->player.px -= 5;
+	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
+		game->player.px += 5;
+	draw_square(game->player.px, game->player.py, 10, 0x00FF00FF, game->img);
+}
 
 int run_game(t_game *game)
 {
     game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
     if (!game->mlx)
 		errno_error_mlx();
-    mlx_image_t *img = mlx_new_image(game->mlx, HEIGHT, WIDTH);
-    if (!img || (mlx_image_to_window(game->mlx, img, 0, 0) < 0))
+    game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
+    if (!game->img)
 		errno_error_mlx();
-	draw_square(HEIGHT / 2, WIDTH / 2, 100, 0x00FF00, img);
+	game->player.py = HEIGHT / 2;
+	game->player.px = WIDTH / 2;
+	draw_square(game->player.px, game->player.py, 10, 0x00FF00FF, game->img);
+	mlx_image_to_window(game->mlx, game->img, 0, 0);
+	mlx_loop_hook(game->mlx, ft_hook, game);
     mlx_loop(game->mlx);
     mlx_terminate(game->mlx);
     return (EXIT_SUCCESS);

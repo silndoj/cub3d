@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.fr>   +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:05:47 by tndreka           #+#    #+#             */
-/*   Updated: 2025/03/28 18:05:47 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/03 20:41:15 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void    init_textures(t_parser *parser)
 {
     parser->no_texture = NULL;
-    //parser->so_texture = NULL;
-    //parser->we_texture = NULL;
-    //parser->ea_texture = NULL;
-
+    parser->so_texture = NULL;
+    parser->we_texture = NULL;
+    parser->ea_texture = NULL;
 }
 

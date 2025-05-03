@@ -41,7 +41,7 @@ int check_map(char *file, t_parser *parser)
     if (fd == -1)
 		return (errno_exit(), 1);
     copy_map(fd, parser);
-    //print_map(parser);
+    print_map(parser);
     close(fd);
     if (parse_textures(parser))
         return (1);

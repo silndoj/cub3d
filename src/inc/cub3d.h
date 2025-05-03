@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/04/30 17:35:37 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/03 21:00:37 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include "../../MLX42/include/MLX42/MLX42.h"
 # include "libft/includes/libft.h"
 
-#define WIDTH 1280
-#define HEIGHT 720
+#define WIDTH 1024
+#define HEIGHT 768
 
 
 typedef struct s_parser
@@ -35,15 +35,18 @@ typedef struct s_parser
     char	**map2d;
 }   t_parser;
 
+typedef struct s_player
+{
+	float	px;
+	float	py;
+}	t_player;
+
 typedef struct s_game
 {
 	void*		mlx;
 	void*		win;
 	void*		img;
-	char*		data;
-	int			bpp;
-	int			size_line;
-	int			endian;
+	t_player	player;
 	t_parser	parser;
 }   t_game;
 

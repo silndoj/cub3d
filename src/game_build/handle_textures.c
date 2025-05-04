@@ -6,16 +6,15 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:23:58 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/04 19:19:24 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:35:52 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-static int check_all_elements_file(char *trim, t_parser *parser)
+static	int	check_all_elements_file(char *trim, t_parser *parser)
 {
-
-	if(!ft_strncmp(trim, "NO ", 3))
+	if (!ft_strncmp(trim, "NO ", 3))
 		parser->no_found = true;
 	else if (!ft_strncmp(trim, "SO ", 3))
 		parser->so_found = true;
@@ -28,9 +27,9 @@ static int check_all_elements_file(char *trim, t_parser *parser)
 	else if (!ft_strncmp(trim, "C ", 2))
 		parser->c_found = true;
 	if (parser->no_found && parser->so_found && parser->ea_found
-		&& parser->we_found  && parser->f_found  && parser->c_found)	
-			parser->all_elements = true;
-	return 0;
+		&& parser->we_found && parser->f_found && parser->c_found)
+		parser->all_elements = true;
+	return (0);
 }
 
 // static int check_map_pos(char *trim, t_parser *parser, int i)
@@ -54,32 +53,19 @@ static int check_all_elements_file(char *trim, t_parser *parser)
 // 	return 0;
 // }
 
-int    parse_textures(t_parser *parser)
+int	parse_textures(t_parser *parser)
 {
-	char    *trim;
-    int     i;
-	// int		ret_value;
-	
-    i = -1;
-	
-    init_textures(parser);
-    while(parser->map2d[++i] && !parser->all_elements)
-    {
+	char	*trim;
+	int		i;
+
+	i = -1;
+	init_textures(parser);
+	while (parser->map2d[++i] && !parser->all_elements)
+	{
 		trim = ft_strtrim(parser->map2d[i], " \t");
-		if(trim && *trim)
-		{
+		if (trim && *trim)
 			check_all_elements_file(trim, parser);
-			
-		}
 		free(trim);
-		// if (parser->all_elements != true)
-		// 	return 1;
-        // if((ret_value = check_map_pos(trim, parser, i)) == 1)
-		// 	return (free(trim), 1);
-		// if(ret_value == 0 && !parser->map_started)
-		// {
-		// 	printf("GAME OPEN ===>");
-		// }
-    }
-    return (0);
+	}
+	return (0);
 }

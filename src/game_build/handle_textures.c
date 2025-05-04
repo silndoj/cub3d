@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 19:23:58 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/04 19:35:52 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/04 19:57:45 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ int	parse_textures(t_parser *parser)
 		if (trim && *trim)
 			check_all_elements_file(trim, parser);
 		free(trim);
+	}
+	if(!parser->all_elements)
+	{
+		if (!parser->no_found)
+			return (printf("Error: NO_texture not found\n"), 1);
+		if (!parser->so_found)
+			return (printf("Error: SO_texture not found\n"), 1);
+		if (!parser->ea_found)
+			return (printf("Error: EA_texture not found\n"), 1);
+		if (!parser->we_found)
+			return (printf("Error: WE_texture not found\n"), 1);
+		if (!parser->f_found)
+			return (printf("Error: Floor_Color not found\n"), 1);
+		if (!parser->c_found)
+			return (printf("Error: Ceiling_Color not found\n"), 1);
 	}
 	return (0);
 }

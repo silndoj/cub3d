@@ -17,26 +17,11 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 	if (!ft_strncmp(trim, "NO ", 3))
 		handle_north_texture(trim, parser);
 	else if (!ft_strncmp(trim, "SO ", 3))
-	{
-		parser->so_found = true;
-		parser->so_texture = ft_strtrim(trim + 3, " \t");
-		if (!parser->so_texture)
-			exit_error("Failed to find the path for SO_texture");
-	}
+		handle_south_texture(trim, parser);
 	else if (!ft_strncmp(trim, "EA ", 3))
-	{
-		parser->ea_found = true;
-		parser->ea_texture = ft_strtrim(trim + 3, " \t");
-		if (!parser->ea_texture)
-			exit_error("Failed to find the path for EA_texture");
-	}	
+		handle_east_texture(trim, parser);
 	else if (!ft_strncmp(trim, "WE ", 3))
-	{
-		parser->we_found = true;
-		parser->we_texture = ft_strtrim(trim + 3, " \t");
-		if (!parser->we_texture)
-			exit_error("Failed to find the path for WE_texture");
-	}	
+		handle_west_texture(trim, parser);
 	else if (!ft_strncmp(trim, "F ", 2))
 		parser->f_found = true;
 	else if (!ft_strncmp(trim, "C ", 2))

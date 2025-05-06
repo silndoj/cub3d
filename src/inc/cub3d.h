@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/04 19:39:17 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/06 16:43:46 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,10 @@ int			map_build(int argc, char **argv, t_parser *parser);
 int			check_map(char *file, t_parser *parser);
 void		copy_map(int fd, t_parser *parser);
 void		print_map(t_parser *parser);
-int			parse_textures(t_parser *parser);
-void		init_textures(t_parser *parser);
+int			parse_map(t_parser *parser);
+void		init_map(t_parser *parser);
 
 //Util Box
 int			errno_exit(void);
-
+int			exit_error(const char *msg);
 #endif

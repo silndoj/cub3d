@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 18:19:08 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:29:33 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ void clear_image(mlx_image_t *img)
 		}
 		y++;
 	}
+}
+
+void	handle_rotation(t_game *g, double rot_speed, int direction)
+{
+    double oldDirX;
+	oldDirX = g->player.dirX;
+    g->player.dirX = g->player.dirX * cos(direction * rot_speed) - g->player.dirY * sin(direction * rot_speed);
+    g->player.dirY = oldDirX * sin(direction * rot_speed) + g->player.dirY * cos(direction * rot_speed);
+
+    double oldPlaneX;
+	oldPlaneX = g->player.planeX;
+    g->player.planeX = g->player.planeX * cos(direction * rot_speed) - g->player.planeY * sin(direction * rot_speed);
+    g->player.planeY = oldPlaneX * sin(direction * rot_speed) + g->player.planeY * cos(direction * rot_speed);
 }
 
 void	handle_movement(t_game *g, double move_speed, int direction)

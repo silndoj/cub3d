@@ -19,15 +19,24 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 		parser->no_found = true;
 		//store the path
 		parser->no_texture = ft_strtrim(trim + 3, " \t");
-		if (!parser->no_found)
+		if (!parser->no_texture)
 			exit_error("Failed to find the path for NO_texture");
 	}
 	else if (!ft_strncmp(trim, "SO ", 3))
+	{
 		parser->so_found = true;
+		parser->so_texture = ft_strtrim(trim + 3, " \t");
+		if (!parser->so_texture)
+			exit_error("Failed to find the path for NO_texture");
+	}
 	else if (!ft_strncmp(trim, "EA ", 3))
+	{
 		parser->ea_found = true;
+	}	
 	else if (!ft_strncmp(trim, "WE ", 3))
+	{
 		parser->we_found = true;
+	}	
 	else if (!ft_strncmp(trim, "F ", 2))
 		parser->f_found = true;
 	else if (!ft_strncmp(trim, "C ", 2))
@@ -70,6 +79,6 @@ int	parse_map(t_parser *parser)
 	if (parser->no_texture)
 		printf("---> PATH <---------> %s\n", parser->no_texture);
 	if (parser->so_texture)
-		printf("---> PATH <---------> %s\n", parser->no_texture);
+		printf("---> PATH <---------> %s\n", parser->so_texture);
 	return (0);
 }

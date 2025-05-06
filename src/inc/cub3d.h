@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/03 21:00:37 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:06:26 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,40 @@
 # include "../../MLX42/include/MLX42/MLX42.h"
 # include "libft/includes/libft.h"
 
-#define WIDTH 1024
-#define HEIGHT 768
-
+# define WIDTH 1024
+# define HEIGHT 768
+# define GRID_COLS 16
+# define GRID_ROWS 12
 
 typedef struct s_parser
 {
     char	**map2d;
+	int		world[GRID_ROWS][GRID_COLS] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, {1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,0,0,1,0,1,1,1,0,0,1,0,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1}, {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1}, {1,0,0,0,0,1,0,1,0,0,1,1,1,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
 }   t_parser;
 
 typedef struct s_player
 {
-	float	px;
-	float	py;
+	double	px;
+	double	py;
+	double	dirX;
+    double	dirY;
+    double	planeX;
+    double	planeY;
 }	t_player;
 
 typedef struct s_game
 {
-	void*		mlx;
-	void*		win;
-	void*		img;
-	t_player	player;
-	t_parser	parser;
+	mlx_t*			mlx;
+	mlx_image_t*	img;
+	t_player		player;
+	t_parser		parser;
 }   t_game;
 
 //***game_build/MAP_BUILD.C

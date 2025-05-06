@@ -43,7 +43,10 @@ int	parse_map(t_parser *parser)
 	{
 		trim = ft_strtrim(parser->map2d[i], " \t");
 		if (trim && *trim)
-			check_all_elements_file(trim, parser);
+		{
+			if(check_all_elements_file(trim, parser))
+				return (free(trim),1);
+		}
 		free(trim);
 	}
 	if(!parser->all_elements)
@@ -61,13 +64,5 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Error: Ceiling_Color not found\n");
 	}
-	if (parser->no_texture)
-		printf("---> PATH <---------> %s\n", parser->no_texture);
-	if (parser->so_texture)
-		printf("---> PATH <---------> %s\n", parser->so_texture);
-	if (parser->ea_texture)
-		printf("---> PATH <---------> %s\n", parser->ea_texture);
-	if (parser->we_texture)
-		printf("---> PATH <---------> %s\n", parser->we_texture);
 	return (0);
 }

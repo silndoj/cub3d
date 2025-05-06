@@ -18,8 +18,11 @@ int handle_north_texture(char *trim, t_parser *parser)
 	//store the path
 	parser->no_texture = ft_strtrim(trim + 3, " \t\n");
 	//if after the identifier there is no path return error
-	if (parser->no_texture[0] == '\0')
+	if (!parser->no_texture || parser->no_texture[0] == '\0')
+	{
+		free(parser->no_texture);
 		exit_error("Failed to find the path for NO_texture");
+	}
 	return 0;
 }
 

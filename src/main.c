@@ -6,11 +6,21 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/03 22:08:30 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:19:08 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cub3d.h"
+
+	int		world[GRID_ROWS][GRID_COLS] = {
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, {1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,0,0,1,0,1,1,1,0,0,1,0,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1}, {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1},
+    {1,0,0,0,0,1,0,1,0,0,1,0,1,0,0,1}, {1,0,0,0,0,1,0,1,0,0,1,1,1,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1}, {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+};
+
 
 void clear_image(mlx_image_t *img)
 {
@@ -29,6 +39,20 @@ void clear_image(mlx_image_t *img)
 		}
 		y++;
 	}
+}
+
+void	handle_movement(t_game *g, double move_speed, int direction)
+{
+    double newX;
+	double newY;
+	
+	newX = g->player.px + g->player.dirX * move_speed * direction;
+	newY = g->player.py + g->player.dirY * move_speed * direction;
+    if (world[(int)newY][(int)newX] == 0)
+	{
+        g->player.px = newX;
+        g->player.py = newY;
+    }
 }
 
 void	draw_square(int x, int y, int size, int color, mlx_image_t *img)
@@ -51,17 +75,25 @@ void	draw_square(int x, int y, int size, int color, mlx_image_t *img)
 
 void	ft_hook(void *param)
 {
-	t_game *game;
+	static double	o_time;
+	t_game			*game;
+	double			c_time;
+	double			f_time;
+
+	o_time = 0;
 	game = param;
+	c_time = mlx_get_time();
+	f_time = c_time - o_time;
+	o_time = c_time;
 	clear_image(game->img);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
-		game->player.py -= 5;
+		handle_movement(game, f_time * 5.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-		game->player.py += 5;
+		handle_movement(game, f_time * 5.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		game->player.px -= 5;
+		handle_movement(game, f_time * 5.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-		game->player.px += 5;
+		handle_movement(game, f_time * 5.0, 1);
 	draw_square(game->player.px, game->player.py, 10, 0x00FF00FF, game->img);
 }
 

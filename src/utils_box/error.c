@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 00:02:44 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/06 16:42:48 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/06 19:52:03 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 int	exit_error(const char *msg)
 {
-	printf("Error: %s\n", msg);
+	ft_putstr_fd("Error: ", STDERR_FILENO);
+	ft_putstr_fd((char *)msg, STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	free_allocations();
 	exit(EXIT_FAILURE);
 }
 

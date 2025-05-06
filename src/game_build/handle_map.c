@@ -27,15 +27,21 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 		parser->so_found = true;
 		parser->so_texture = ft_strtrim(trim + 3, " \t");
 		if (!parser->so_texture)
-			exit_error("Failed to find the path for NO_texture");
+			exit_error("Failed to find the path for SO_texture");
 	}
 	else if (!ft_strncmp(trim, "EA ", 3))
 	{
 		parser->ea_found = true;
+		parser->ea_texture = ft_strtrim(trim + 3, " \t");
+		if (!parser->ea_texture)
+			exit_error("Failed to find the path for EA_texture");
 	}	
 	else if (!ft_strncmp(trim, "WE ", 3))
 	{
 		parser->we_found = true;
+		parser->we_texture = ft_strtrim(trim + 3, " \t");
+		if (!parser->we_texture)
+			exit_error("Failed to find the path for WE_texture");
 	}	
 	else if (!ft_strncmp(trim, "F ", 2))
 		parser->f_found = true;

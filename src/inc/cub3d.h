@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 16:43:46 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/06 18:26:58 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,11 @@ void		print_map(t_parser *parser);
 int			parse_map(t_parser *parser);
 void		init_map(t_parser *parser);
 
+//HANDLE TEXTURES
+int			handle_north_texture(char *trim, t_parser *parser);
+int			handle_south_texture(char *trim, t_parser *parser);
+int			handle_east_texture(char *trim, t_parser *parser);
+int			handle_west_texture(char *trim, t_parser *parser);
 //Util Box
 int			errno_exit(void);
 int			exit_error(const char *msg);

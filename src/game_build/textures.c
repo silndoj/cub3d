@@ -26,8 +26,10 @@ int handle_north_texture(char *trim, t_parser *parser)
 		exit_error("Failed to find the path for NO_texture");
 	}
 	printf("\nPATH\n%s\n", parser->no_texture);
-	if ((fd = open(parser->no_texture, O_RDONLY)) == -1)
+	fd = open(parser->no_texture, O_RDONLY);
+	if (fd == -1)
 		exit_error("NO_texture not found or inaccessible");
+	close(fd);
 	return 0;
 }
 

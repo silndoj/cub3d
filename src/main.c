@@ -68,32 +68,105 @@ void	handle_movement(t_game *g, double move_speed, int direction)
     }
 }
 
-void	draw_square(int x, int y, int size, int color, mlx_image_t *img)
+void	dda_loop(t_game* g)
 {
-	int	i;
+	while (!g->player.hit)
+	{
+		if (g->player.sDistX < g->player.sDistY)
+		{
+			g->player.sDistX +=	g->player.dDistX;
+			g->player.mapX += g->player.stepX;
+			g->player.side = 0;
+		}
+		else
+		{
+			g->player.sDistY += g->player.dDistY;
+			g->player.mapY += g->player.stepY;
+			g->player.side = 1;
+		}
+		if(world[g->player.mapY][g->player.mapX] > 0)
+			g->player.hit = 1;
+	}
+}
 
-	i = 0;
-	while (i++ < size)
-		mlx_put_pixel(img, x + i, y, color);
-	i = 0;
-	while (i++ < size)
-		mlx_put_pixel(img, x, y + i, color);
-	i = 0;
-	while (i++ < size)
-		mlx_put_pixel(img, x + size, y + i-1, color);
-	i = 0;
-	while (i++ < size)
-		mlx_put_pixel(img, x+ i - 1, y + size, color);
+void	dda_algo(t_game* g)
+{
+	if (g->player.rDirX < 0)
+	{
+		g->player.stepX = -1;
+		g->player.sDistX = (g->player.px - g->player.mapX) * g->player.dDistX;
+	}
+	else
+	{
+		g->player.stepX = 1;
+		g->player.sDistX = (g->player.mapX + 1.0 - g->player.px) * g->player.dDistX;
+	}
+	if (g->player.rDirY < 0)
+	{
+		g->player.stepY = -1;
+		g->player.sDistY = (g->player.py - g->player.mapY) * g->player.dDistY;
+	}
+	else
+	{
+		g->player.stepY = 1;
+		g->player.sDistY = (g->player.mapY + 1.0 - g->player.py) * g->player.dDistY;
+	}
+	dda_loop(g);
+}
+
+void draw_walls(t_game* g, int x)
+{
+	int	l_height;
+	int	d_start;
+	int	d_end;
+	int	color;
+
+	d_end = l_height / 2 + HEIGHT / 2;
+	g->player.pWallDist = g->player.side ? (g->player.sDistY - g->player.dDistY) : (g->player.sDistX - g->player.dDistX);
+	l_height = (int)(HEIGHT / g->player.pWallDist);
+	d_start = -l_height / 2 + HEIGHT / 2;
+	d_start = d_start < 0 ? 0 : d_start;
+	d_end = d_end >= HEIGHT ? HEIGHT - 1 : d_end;
+	switch (world[g->player.mapY][g->player.mapX])
+	{
+		case 1: color = COLOR_W; break;
+		default: color = COLOR_S; break;
+	}
+	if (g->player.side == 1)
+		color = (color >> 1) & 0x7F7F7F7F;
+	g->y = d_start - 1;
+	while (g->y++ < d_end)
+		mlx_put_pixel(g->img, x, g->y, color);
+}
+
+void	cast_ray(t_game *g)
+{
+	int	x;
+
+	x = 0;
+	while (x < WIDTH)
+	{
+		g->player.cameraX = 2 * x / (double)WIDTH - 1;
+		g->player.rDirX = g->player.dirX + g->player.planeX * g->player.cameraX;
+		g->player.rDirY = g->player.dirY + g->player.planeY * g->player.cameraX;
+		g->player.mapX = (int)g->player.px;
+		g->player.mapY = (int)g->player.py;
+		g->player.dDistX = fabs(1 / g->player.rDirX);
+		g->player.dDistY = fabs(1 / g->player.rDirY);
+		g->player.hit = 0;
+		dda_algo(g);
+		draw_walls(g, x);
+		x++;
+	}
 }
 
 void	ft_hook(void *param)
 {
-	static double	o_time;
+	static double	o_time = 0;
 	t_game			*game;
 	double			c_time;
 	double			f_time;
 
-	o_time = 0;
 	game = param;
 	c_time = mlx_get_time();
 	f_time = c_time - o_time;

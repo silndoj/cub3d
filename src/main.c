@@ -175,25 +175,26 @@ void	ft_hook(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
 		handle_movement(game, f_time * 5.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
-		handle_movement(game, f_time * 5.0, 1);
+		handle_movement(game, f_time * 5.0, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
-		handle_movement(game, f_time * 5.0, 1);
+		handle_rotation(game, f_time * 3.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
-		handle_movement(game, f_time * 5.0, 1);
-	draw_square(game->player.px, game->player.py, 10, 0x00FF00FF, game->img);
+		handle_rotation(game, f_time * 3.0, -1);
+	cast_ray(game);
 }
 
 int run_game(t_game *game)
 {
     game->mlx = mlx_init(WIDTH, HEIGHT, "cub3d", true);
-    if (!game->mlx)
+    if (!game->mlx || !(game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT)))
 		errno_error_mlx();
-    game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT);
-    if (!game->img)
-		errno_error_mlx();
-	game->player.py = HEIGHT / 2;
-	game->player.px = WIDTH / 2;
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
+	game->player.py = 3.0;
+	game->player.px = 3.0;
+	game->player.dirX = -1;
+	game->player.dirY = 0;
+	game->player.planeX = 0;
+	game->player.planeY = 0.66;
 	mlx_loop_hook(game->mlx, ft_hook, game);
     mlx_loop(game->mlx);
     mlx_terminate(game->mlx);

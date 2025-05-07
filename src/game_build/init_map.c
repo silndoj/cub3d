@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:05:47 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 17:55:50 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:28:13 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,6 @@ void	init_map(t_parser *parser)
 	parser->ea_found = false;
 	parser->f_found = false;
 	parser->c_found = false;
+	parser->ceiling_set = false;
+	parser->floor_set = false;
 }

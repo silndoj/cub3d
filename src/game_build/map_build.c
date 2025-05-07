@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 17:35:56 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/07 16:14:07 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	print_map(t_parser *parser)
 	i = 0;
 	while (parser->map2d[i])
 	{
-		printf("%s\n", parser->map2d[i]);
+		printf("%s", parser->map2d[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 18:26:58 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:41:21 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@
 # define WIDTH 1024
 # define HEIGHT 1024
 
+typedef struct s_color
+{
+	int		r;
+	int		g;
+	int		b;
+}	t_color;
+
 typedef struct s_parser
 {
 	char	**map2d;
@@ -33,6 +40,8 @@ typedef struct s_parser
 	char	*we_texture;
 	char	*ea_texture;
 	int		start_line_map;
+	t_color	floor;
+	t_color ceiling;
 	bool	map_started;
 	bool	all_elements;
 	bool	no_found;
@@ -41,7 +50,10 @@ typedef struct s_parser
 	bool	ea_found;
 	bool	f_found;
 	bool	c_found;
+	bool	floor_set;
+	bool	ceiling_set;
 }	t_parser;
+
 
 typedef struct s_game
 {
@@ -62,6 +74,8 @@ int			handle_north_texture(char *trim, t_parser *parser);
 int			handle_south_texture(char *trim, t_parser *parser);
 int			handle_east_texture(char *trim, t_parser *parser);
 int			handle_west_texture(char *trim, t_parser *parser);
+//COLORS
+int 		handle_floor_color(char *trim, t_parser *parser);
 //Util Box
 int			errno_exit(void);
 int			exit_error(const char *msg);

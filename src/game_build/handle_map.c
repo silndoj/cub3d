@@ -23,9 +23,16 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 	else if (!ft_strncmp(trim, "WE ", 3))
 		handle_west_texture(trim, parser);
 	else if (!ft_strncmp(trim, "F ", 2))
-		parser->f_found = true;
+	{
+		// parser->f_found = true;
+		// if (parser->floor_set)
+		// 	exit_error("Floor Color Dublicated");
+	}
 	else if (!ft_strncmp(trim, "C ", 2))
+	{
+
 		parser->c_found = true;
+	}
 	if (parser->no_found && parser->so_found && parser->ea_found
 		&& parser->we_found && parser->f_found && parser->c_found)
 		parser->all_elements = true;

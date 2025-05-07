@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:13:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/07 18:45:44 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:52:46 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int	handle_floor_color(char *trim,t_parser  *parser)
 	parser->f_found = true;
 	int i = 0;
 	while (value[i])
-	{
-		printf("value[%d] =  %s\n", i, value[i]);
 		i++;
-	}
+	printf("%d\n", i);
+	if (i != 3)
+		exit_error("Invalid Color Format.. try (R,G,B)");
+	parser->floor.r = ft_atoi(value[0]);
+	printf("%d\n", parser->floor.r);
 	return 0;
 }

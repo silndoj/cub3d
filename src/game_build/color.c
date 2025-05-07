@@ -32,8 +32,12 @@ int	handle_floor_color(char *trim,t_parser  *parser)
 	parser->floor.r = ft_atoi(value[0]);
 	parser->floor.g = ft_atoi(value[1]);
 	parser->floor.b = ft_atoi(value[2]);
-	printf("%d\n", parser->floor.r);
-	printf("%d\n", parser->floor.g);
-	printf("%d\n", parser->floor.b);
+	if ((parser->floor.r < 0 || parser->floor.r > 255)
+		||(parser->floor.g < 0|| parser->floor.g > 255)
+		|| (parser->floor.b < 0|| parser->floor.b > 255))
+		exit_error("R,G,B values should be between the range of 0 to 255");
+	// printf("%d\n", parser->floor.r);
+	// printf("%d\n", parser->floor.g);
+	// printf("%d\n", parser->floor.b);
 	return 0;
 }

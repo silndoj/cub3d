@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/06 18:18:41 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/07 14:09:30 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # define HEIGHT 768
 # define GRID_COLS 16
 # define GRID_ROWS 12
+# define COLOR_W 0xFF0000FF
+# define COLOR_S 0xFFFFFFFF
 
 typedef struct s_parser
 {
@@ -44,12 +46,27 @@ typedef struct s_player
     double	dirY;
     double	planeX;
     double	planeY;
+    double	cameraX;
+	double	rDirX;
+	double	rDirY;
+	double	dDistX;
+	double	dDistY;
+	double	sDistX;
+	double	sDistY;
+	double	pWallDist;
+	int		stepX;
+	int		stepY;
+	int		hit;
+	int		side;
+	int		mapX;
+	int		mapY;
 }	t_player;
 
 typedef struct s_game
 {
 	mlx_t*			mlx;
 	mlx_image_t*	img;
+	int				y;
 	t_player		player;
 	t_parser		parser;
 }   t_game;

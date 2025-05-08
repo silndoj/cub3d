@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 18:05:47 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/07 18:28:13 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/08 16:48:57 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void	init_map(t_parser *parser)
 	parser->so_texture = NULL;
 	parser->we_texture = NULL;
 	parser->ea_texture = NULL;
-	parser->map_started = false;
+	parser->map_found = false;
+	parser->start_line_map = 0;
 	parser->all_elements = false;
 	parser->no_found = false;
 	parser->so_found = false;

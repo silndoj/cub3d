@@ -190,6 +190,50 @@ static void check_all(t_parser *parser)
 	}
 }
 
+static void extra_char(t_parser *parser, int i, char *trim)
+{
+	i = parser->start_line_map + parser->map_height;
+	while (parser->map2d[i])
+	{
+		trim = ft_strtrim(parser->map2d[i], " \t\n");
+		if (trim && *trim)
+		{
+			free(trim);
+			exit_error("Unexpected characters after map");
+		}
+		free(trim);
+		i++;
+	}
+}
+
+static void map_pos(t_parser *parser, int i, char *trim)
+{
+	i = 0;
+
+	while (i < parser->start_line_map)
+	{
+		trim = ft_strtrim(parser->map2d[i], " \t\n");
+		if (trim && *trim)
+		{
+			free(trim);
+			exit_error("Map should appear in the end of the file");
+		}
+		free(trim);
+		i++;
+	}
+}
+
+static void is_it_valid(t_parser *parser)
+{
+	char	*trim;
+	int		i;
+
+	i = 0;
+	trim = NULL;
+	extra_char(parser, i, trim);
+	map_pos(parser, i, trim);
+}
+
 int	parse_map(t_parser *parser)
 {
 	char	*trim;
@@ -208,8 +252,10 @@ int	parse_map(t_parser *parser)
 	}
 	check_all(parser);
 	find_start_of_map(parser, i + 1);
+	is_it_valid(parser);
 	convert_map_to_int(parser);
 	create_int_array(parser);
 	put_map_elements(parser);
+	// print_int_map(parser);
 	return (0);
 }

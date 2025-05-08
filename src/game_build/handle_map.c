@@ -190,8 +190,11 @@ static void check_all(t_parser *parser)
 	}
 }
 
-static void extra_char(t_parser *parser, int i, char *trim)
+static void extra_char(t_parser *parser)
 {
+	int		i;
+	char	*trim;
+
 	i = parser->start_line_map + parser->map_height;
 	while (parser->map2d[i])
 	{
@@ -206,11 +209,13 @@ static void extra_char(t_parser *parser, int i, char *trim)
 	}
 }
 
-static void map_pos(t_parser *parser, int i, char *trim)
+static void map_pos(t_parser *parser, int map_start)
 {
-	i = 0;
+	int		i;
+	char	*trim;
 
-	while (i < parser->start_line_map)
+	i = 0;
+	while (i < map_start)
 	{
 		trim = ft_strtrim(parser->map2d[i], " \t\n");
 		if (trim && *trim)
@@ -222,16 +227,25 @@ static void map_pos(t_parser *parser, int i, char *trim)
 		i++;
 	}
 }
-
-static void is_it_valid(t_parser *parser)
+static check_walls(t_parser *parser)
 {
-	char	*trim;
-	int		i;
+	//alloc memory
+	int **wall;
+	int	i;
 
+	wall = ft_malloc(sizeof(int *) * parser->map_height);
+	if(!wall)
+		exit_error("faild alocation for check_walls()->H");
 	i = 0;
-	trim = NULL;
-	extra_char(parser, i, trim);
-	map_pos(parser, i, trim);
+	while (i < parser->map_height)
+	{
+		wall[i] = ft_malloc(sizeof(int) * parser->map_width);
+		if(!wall[i])
+			exit_error("failed alocation in check_wall()->W");
+		i++;
+	}
+
+	
 }
 
 int	parse_map(t_parser *parser)
@@ -252,10 +266,13 @@ int	parse_map(t_parser *parser)
 	}
 	check_all(parser);
 	find_start_of_map(parser, i + 1);
-	is_it_valid(parser);
+	// is_it_valid(parser);
+	map_pos(parser, parser->start_line_map);
 	convert_map_to_int(parser);
 	create_int_array(parser);
 	put_map_elements(parser);
+	check_walls(parser);
+	extra_char(parser);
 	// print_int_map(parser);
 	return (0);
 }

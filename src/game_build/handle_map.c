@@ -12,6 +12,29 @@
 
 #include "../inc/cub3d.h"
 
+static int find_start_of_map(t_parser *parser)
+{
+	char	*trim;
+	int		i;
+
+	i = -1;
+	while(parser->map2d[++i])
+	{
+		trim = ft_strtrim(parser->map2d, " \t");
+		if (trim && *trim)
+		{
+			if(ft_strchr(trim, "10NSWE"))
+			{
+				free(trim);
+				parser->map_started = i;
+				return 0;	
+			}
+		}
+	}
+	exit_error("could not find the map");
+	return 1;
+}
+
 static	int	check_all_elements_file(char *trim, t_parser *parser)
 {
 	if (!ft_strncmp(trim, "NO ", 3))
@@ -24,14 +47,15 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 		handle_west_texture(trim, parser);
 	else if (!ft_strncmp(trim, "F ", 2))
 	{
+		handle_floor_color(trim, parser);
 		// parser->f_found = true;
 		// if (parser->floor_set)
 		// 	exit_error("Floor Color Dublicated");
 	}
 	else if (!ft_strncmp(trim, "C ", 2))
 	{
-
-		parser->c_found = true;
+		handle_ceiling_color(trim, parser);
+		// parser->c_found = true;
 	}
 	if (parser->no_found && parser->so_found && parser->ea_found
 		&& parser->we_found && parser->f_found && parser->c_found)
@@ -71,5 +95,6 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Error: Ceiling_Color not found\n");
 	}
+	find_start_of_map(parser);
 	return (0);
 }

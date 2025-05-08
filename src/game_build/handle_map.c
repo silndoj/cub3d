@@ -31,15 +31,15 @@ static int find_start_of_map(t_parser *parser, int start_i)
 	i = start_i - 1;
 	while(parser->map2d[++i])
 	{
-		printf("Checking line %d: [%s]\n", i, parser->map2d[i]);
+		// printf("Checking line %d: [%s]\n", i, parser->map2d[i]);
 		trim = ft_strtrim(parser->map2d[i], " \t\n");
 		if (trim && *trim)
 		{
-			printf("Trimmed line: [%s]\n", trim);
+			// printf("Trimmed line: [%s]\n", trim);
 			if(map_line(trim))
 			{
 				parser->start_line_map = i;
-				printf("DEBUG: parser->map_started = %d\n", parser->start_line_map);
+				// printf("DEBUG: parser->map_started = %d\n", parser->start_line_map);
 				// printf("%s\n", trim);
 				free(trim);
 				return (0);
@@ -84,6 +84,36 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 	return (0);
 }
 
+static	void convert_map_to_int(t_parser *parser)
+{
+	int		i;
+	int		map_width;
+	int		map_height;
+	int		len;
+	char	*trim;
+
+	i = parser->start_line_map;
+	map_width = 0;
+	map_height = 0;
+	len = 0;
+
+	while (parser->map2d[i])
+	{
+		trim = ft_strtrim(parser->map2d[i], " \t\n");
+		if (trim && *trim)
+		{
+			map_height++;
+			len = ft_strlen(trim);
+			if (len > map_width)
+				map_width = len;
+		}
+		free(trim);
+		i++;
+	}
+	printf("map height %d\n", map_height);
+	printf("map width %d\n", map_width);
+}
+
 int	parse_map(t_parser *parser)
 {
 	char	*trim;
@@ -116,8 +146,9 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Error: Ceiling_Color not found\n");
 	}
-	printf("%d\n", i);
+	// printf("%d\n", i);
 	find_start_of_map(parser, i + 1);
+	convert_map_to_int(parser);
 	// printf("--> map count line :%d\n", parser->map_started);
 	return (0);
 }

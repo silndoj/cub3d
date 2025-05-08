@@ -6,11 +6,12 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:11 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/07 17:34:54 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/08 12:26:44 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cub3d.h"
+#include <stdint.h>
 
 	int		world[GRID_ROWS][GRID_COLS] = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, {1,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -116,27 +117,33 @@ void	dda_algo(t_game* g)
 
 void draw_walls(t_game* g, int x)
 {
-	int	l_height;
-	int	d_start;
-	int	d_end;
-	int	color;
+    int l_height;
+    int d_start;
+    int d_end;
+    int color;
 
-	d_end = l_height / 2 + HEIGHT / 2;
-	g->player.pWallDist = g->player.side ? (g->player.sDistY - g->player.dDistY) : (g->player.sDistX - g->player.dDistX);
-	l_height = (int)(HEIGHT / g->player.pWallDist);
-	d_start = -l_height / 2 + HEIGHT / 2;
-	d_start = d_start < 0 ? 0 : d_start;
-	d_end = d_end >= HEIGHT ? HEIGHT - 1 : d_end;
-	switch (world[g->player.mapY][g->player.mapX])
-	{
-		case 1: color = COLOR_W; break;
-		default: color = COLOR_S; break;
-	}
-	if (g->player.side == 1)
-		color = (color >> 1) & 0x7F7F7F7F;
-	g->y = d_start - 1;
-	while (g->y++ < d_end)
-		mlx_put_pixel(g->img, x, g->y, color);
+    // Calculate wall distance and height
+    g->player.pWallDist = g->player.side ? 
+        (g->player.sDistY - g->player.dDistY) : 
+        (g->player.sDistX - g->player.dDistX);
+    l_height = (int)(HEIGHT / g->player.pWallDist);
+    
+    // Calculate drawing start and end points
+    d_start = -l_height / 2 + HEIGHT / 2;
+    d_start = d_start < 0 ? 0 : d_start;
+    d_end = l_height / 2 + HEIGHT / 2;  // This line was missing!
+    d_end = d_end >= HEIGHT ? HEIGHT - 1 : d_end;
+
+    // Rest of the function remains the same...
+    switch (world[g->player.mapY][g->player.mapX]) {
+        case 1: color = COLOR_W; break;
+        default: color = COLOR_S; break;
+    }
+    if (g->player.side == 1)
+        color = (color >> 1) & 0x7F7F7F7F;
+    g->y = d_start - 1;
+    while (g->y++ < d_end)
+        mlx_put_pixel(g->img, x, g->y, color);
 }
 
 void	cast_ray(t_game *g)
@@ -189,12 +196,18 @@ int run_game(t_game *game)
     if (!game->mlx || !(game->img = mlx_new_image(game->mlx, WIDTH, HEIGHT)))
 		errno_error_mlx();
 	mlx_image_to_window(game->mlx, game->img, 0, 0);
-	game->player.py = 3.0;
+	game->player.py = 6.0;
 	game->player.px = 3.0;
 	game->player.dirX = -1;
 	game->player.dirY = 0;
 	game->player.planeX = 0;
 	game->player.planeY = 0.66;
+	game->textures[0] = mlx_load_png("swall.png");
+	game->textures[1] = mlx_load_png("swall.png");
+	game->textures[2] = mlx_load_png("swall.png");
+	game->textures[3] = mlx_load_png("swall.png");
+	if (!game->textures[0] || !game->textures[1] || !game->textures[2] || !game->textures[3])
+        errno_error_mlx();
 	mlx_loop_hook(game->mlx, ft_hook, game);
     mlx_loop(game->mlx);
     mlx_terminate(game->mlx);

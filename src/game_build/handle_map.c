@@ -12,35 +12,31 @@
 
 #include "../inc/cub3d.h"
 
-static int map_line(char *trim)
+static	int	map_line(char *trim)
 {
 	while (*trim)
 	{
 		if (!ft_strchr(" 01NSWE", *trim))
-			return 0;
+			return (0);
 		trim++;
 	}
-	return 1;
+	return (1);
 }
 
-static int find_start_of_map(t_parser *parser, int start_i)
+static	int	find_start_of_map(t_parser *parser, int start_i)
 {
 	char	*trim;
 	int		i;
 
 	i = start_i - 1;
-	while(parser->map2d[++i])
+	while (parser->map2d[++i])
 	{
-		// printf("Checking line %d: [%s]\n", i, parser->map2d[i]);
 		trim = ft_strtrim(parser->map2d[i], " \t\n");
 		if (trim && *trim)
 		{
-			// printf("Trimmed line: [%s]\n", trim);
-			if(map_line(trim))
+			if (map_line(trim))
 			{
 				parser->start_line_map = i;
-				// printf("DEBUG: parser->map_started = %d\n", parser->start_line_map);
-				// printf("%s\n", trim);
 				free(trim);
 				return (0);
 			}
@@ -53,7 +49,7 @@ static int find_start_of_map(t_parser *parser, int start_i)
 		free(trim);
 	}
 	exit_error("Could not find start of map");
-	return (1);	
+	return (1);
 }
 
 static	int	check_all_elements_file(char *trim, t_parser *parser)
@@ -67,28 +63,21 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 	else if (!ft_strncmp(trim, "WE ", 3))
 		handle_west_texture(trim, parser);
 	else if (!ft_strncmp(trim, "F ", 2))
-	{
 		handle_floor_color(trim, parser);
-		// parser->f_found = true;
-		// if (parser->floor_set)
-		// 	exit_error("Floor Color Dublicated");
-	}
 	else if (!ft_strncmp(trim, "C ", 2))
-	{
 		handle_ceiling_color(trim, parser);
-		// parser->c_found = true;
-	}
 	if (parser->no_found && parser->so_found && parser->ea_found
 		&& parser->we_found && parser->f_found && parser->c_found)
 		parser->all_elements = true;
 	return (0);
 }
-static	int		create_int_array(t_parser *parser)
+
+static	int	create_int_array(t_parser *parser)
 {
 	int		i;
 
 	parser->map = ft_malloc(sizeof(int *) * parser->map_height);
-	if(!parser->map)
+	if (!parser->map)
 		exit_error("Failed to alocate memory for rows");
 	i = 0;
 	while (i < parser->map_height)
@@ -98,18 +87,23 @@ static	int		create_int_array(t_parser *parser)
 			exit_error("Failed to alocate memory for col");
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
-static int put_map_elements(t_parser *parser)
+static	int	put_map_elements(t_parser *parser)
 {
-	int x = 0;;
-	int y = 0;
-	int len = 0;
-	int map_y = parser->start_line_map;
-	int player_found = 0;
-	char c;
+	int		x;
+	int		y;
+	int		len;
+	int		map_y;
+	int		player_found;
+	char	c;
 
+	x = 0;
+	y = 0;
+	len = 0;
+	map_y = parser->start_line_map;
+	player_found = 0;
 	while (y < parser->map_height && parser->map2d[map_y])
 	{
 		len = ft_strlen(parser->map2d[map_y]);
@@ -118,10 +112,10 @@ static int put_map_elements(t_parser *parser)
 		{
 			if (x < len)
 			{
-				c = parser->map2d[map_y] [x];
+				c = parser->map2d[map_y][x];
 				if (c == '\t')
 					c = ' ';
-				}
+			}
 			else
 				c = ' ';
 			if (c == '1')
@@ -138,10 +132,7 @@ static int put_map_elements(t_parser *parser)
 				player_found = 1;
 			}
 			else
-			{
-				printf("Invalid character: ASCII(%d) at y:%d x:%d\n", (int)c, y, x);
 				exit_error("Invalid character");
-			}
 			x++;
 		}
 		y++;
@@ -149,7 +140,7 @@ static int put_map_elements(t_parser *parser)
 	}
 	if (!player_found)
 		exit_error("Missing player position");
-	return 0;
+	return (0);
 }
 
 
@@ -216,13 +207,9 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Ceiling_Color not found");
 	}
-	// printf("%d\n", i);
 	find_start_of_map(parser, i + 1);
 	convert_map_to_int(parser);
 	create_int_array(parser);
 	put_map_elements(parser);
-	// printf("\n");
-	// print_int_map(parser);
-	// printf("--> map count line :%d\n", parser->map_started);
 	return (0);
 }

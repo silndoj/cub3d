@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/07 18:07:25 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/08 21:17:39 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,11 @@
 
 typedef struct s_parser
 {
-    char	**map2d;
+    int map[GRID_ROWS][GRID_COLS];  // Static array
+    int width;
+    int height;
+    int floor_r, floor_g, floor_b;
+    int ceil_r, ceil_g, ceil_b;
 }   t_parser;
 
 typedef struct s_player
@@ -85,5 +89,8 @@ void	print_map(t_parser *parser);
 //***utils_box/ERROR.C
 void	errno_exit(void);
 void	errno_error_mlx(void);
+
+//***utils_box/MAP_DRAW.C 
+void	cast_ray(t_game *g);
 
 #endif

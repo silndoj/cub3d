@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/07 14:09:30 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:07:25 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,12 @@ typedef struct s_game
 {
 	mlx_t*			mlx;
 	mlx_image_t*	img;
+	mlx_texture_t*	textures[4];
+    mlx_image_t*	texture_img;
 	int				y;
+	double			wall_x;
+    int				tex_x, tex_y;
+    double			tex_pos, step;
 	t_player		player;
 	t_parser		parser;
 }   t_game;

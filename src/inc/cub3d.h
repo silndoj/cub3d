@@ -6,7 +6,7 @@
 /*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/08 21:17:39 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/08 22:47:43 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 typedef struct s_parser
 {
+	char **map2d;
     int map[GRID_ROWS][GRID_COLS];  // Static array
     int width;
     int height;

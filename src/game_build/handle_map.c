@@ -101,6 +101,56 @@ static	int		create_int_array(t_parser *parser)
 	return 0;
 }
 
+static int put_map_elements(t_parser *parser)
+{
+	int x = 0;;
+	int y = 0;
+	int len = 0;
+	int map_y = parser->start_line_map;
+	int player_found = 0;
+	char c;
+
+	while (y < parser->map_height && parser->map2d[map_y])
+	{
+		len = ft_strlen(parser->map2d[map_y]);
+		x = 0;
+		while (x < parser->map_width)
+		{
+			if (x < len)
+			{
+				c = parser->map2d[map_y] [x];
+				if (c == '\t')
+					c = ' ';
+				}
+			else
+				c = ' ';
+			if (c == '1')
+				parser->map[y][x] = 1;
+			else if (c == '0')
+				parser->map[y][x] = 0;
+			else if (c == ' ')
+				parser->map[y][x] = -1;
+			else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
+			{
+				if (player_found)
+					exit_error("Multiple players found");
+				parser->map[y][x] = 8;
+				player_found = 1;
+			}
+			else
+			{
+				printf("Invalid character: ASCII(%d) at y:%d x:%d\n", (int)c, y, x);
+				exit_error("Invalid character");
+			}
+			x++;
+		}
+		y++;
+		map_y++;
+	}
+	if (!player_found)
+		exit_error("Missing player position");
+	return 0;
+}
 
 
 static	void convert_map_to_int(t_parser *parser)
@@ -154,23 +204,25 @@ int	parse_map(t_parser *parser)
 	if(!parser->all_elements)
 	{
 		if (!parser->no_found)
-			exit_error("Error: NO_texture not found\n");
+			exit_error("NO_texture not found");
 		if (!parser->so_found)
-			exit_error("Error: SO_texture not found\n");
+			exit_error("SO_texture not found");
 		if (!parser->ea_found)
-			exit_error("Error: EA_texture not found\n");
+			exit_error("EA_texture not found");
 		if (!parser->we_found)
-			exit_error("Error: WE_texture not found\n");
+			exit_error("WE_texture not found");
 		if (!parser->f_found)
-			exit_error("Error: Floor_Color not found\n");
+			exit_error("Floor_Color not found");
 		if (!parser->c_found)
-			exit_error("Error: Ceiling_Color not found\n");
+			exit_error("Ceiling_Color not found");
 	}
 	// printf("%d\n", i);
 	find_start_of_map(parser, i + 1);
 	convert_map_to_int(parser);
 	create_int_array(parser);
 	put_map_elements(parser);
+	// printf("\n");
+	// print_int_map(parser);
 	// printf("--> map count line :%d\n", parser->map_started);
 	return (0);
 }

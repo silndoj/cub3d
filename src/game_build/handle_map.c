@@ -90,59 +90,57 @@ static	int	create_int_array(t_parser *parser)
 	return (0);
 }
 
+static	void fill_map(t_parser *parser, char c, int len)
+{
+	if (parser->x < len)
+	{
+		c = parser->map2d[parser->start_line_map][parser->x];
+		if (c == '\t')
+			c = ' ';
+	}
+	else
+		c = ' ';
+	if (c == '1')
+		parser->map[parser->y][parser->x] = 1;
+	else if (c == '0')
+		parser->map[parser->y][parser->x] = 0;
+	else if (c == ' ')
+		parser->map[parser->y][parser->x] = -1;
+	else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
+	{
+		if (parser->player_found)
+			exit_error("Multiple players found");
+		parser->map[parser->y][parser->x] = 8;
+		parser->player_found = true;
+	}
+	else
+		exit_error("Invalid character");
+}
+
 static	int	put_map_elements(t_parser *parser)
 {
-	int		x;
-	int		y;
 	int		len;
-	int		map_y;
-	int		player_found;
 	char	c;
 
-	x = 0;
-	y = 0;
+	c = '\0';
+	parser->y = 0;
 	len = 0;
-	map_y = parser->start_line_map;
-	player_found = 0;
-	while (y < parser->map_height && parser->map2d[map_y])
+	while (parser->y < parser->map_height && parser->map2d[parser->start_line_map])
 	{
-		len = ft_strlen(parser->map2d[map_y]);
-		x = 0;
-		while (x < parser->map_width)
+		len = ft_strlen(parser->map2d[parser->start_line_map]);
+		parser->x = 0;
+		while (parser->x < parser->map_width)
 		{
-			if (x < len)
-			{
-				c = parser->map2d[map_y][x];
-				if (c == '\t')
-					c = ' ';
-			}
-			else
-				c = ' ';
-			if (c == '1')
-				parser->map[y][x] = 1;
-			else if (c == '0')
-				parser->map[y][x] = 0;
-			else if (c == ' ')
-				parser->map[y][x] = -1;
-			else if (c == 'N' || c == 'E' || c == 'S' || c == 'W')
-			{
-				if (player_found)
-					exit_error("Multiple players found");
-				parser->map[y][x] = 8;
-				player_found = 1;
-			}
-			else
-				exit_error("Invalid character");
-			x++;
+			fill_map(parser, c, len);
+			parser->x++;
 		}
-		y++;
-		map_y++;
+		parser->y++;
+		parser->start_line_map++;
 	}
-	if (!player_found)
+	if (!parser->player_found)
 		exit_error("Missing player position");
 	return (0);
 }
-
 
 static	void convert_map_to_int(t_parser *parser)
 {
@@ -156,7 +154,6 @@ static	void convert_map_to_int(t_parser *parser)
 	map_width = 0;
 	map_height = 0;
 	len = 0;
-
 	while (parser->map2d[i])
 	{
 		trim = ft_strtrim(parser->map2d[i], " \t\n");
@@ -170,28 +167,12 @@ static	void convert_map_to_int(t_parser *parser)
 		free(trim);
 		i++;
 	}
-	printf("map height %d\n", map_height);
-	printf("map width %d\n", map_width);
 	parser->map_height = map_height;
 	parser->map_width = map_width;
 }
 
-int	parse_map(t_parser *parser)
+static void check_all(t_parser *parser)
 {
-	char	*trim;
-	int		i;
-
-	i = -1;
-	while (parser->map2d[++i] && !parser->all_elements)
-	{
-		trim = ft_strtrim(parser->map2d[i], " \t");
-		if (trim && *trim)
-		{
-			if(check_all_elements_file(trim, parser))
-				return (free(trim),1);
-		}
-		free(trim);
-	}
 	if(!parser->all_elements)
 	{
 		if (!parser->no_found)
@@ -207,6 +188,25 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Ceiling_Color not found");
 	}
+}
+
+int	parse_map(t_parser *parser)
+{
+	char	*trim;
+	int		i;
+
+	i = -1;
+	while (parser->map2d[++i] && !parser->all_elements)
+	{
+		trim = ft_strtrim(parser->map2d[i], " \t");
+		if (trim && *trim)
+		{
+			if(check_all_elements_file(trim, parser))
+				return (free(trim), 1);
+		}
+		free(trim);
+	}
+	check_all(parser);
 	find_start_of_map(parser, i + 1);
 	convert_map_to_int(parser);
 	create_int_array(parser);

@@ -12,27 +12,48 @@
 
 #include "../inc/cub3d.h"
 
-static int find_start_of_map(t_parser *parser)
+static int map_line(char *trim)
+{
+	while (*trim)
+	{
+		if (!ft_strchr(" 01NSWE", *trim))
+			return 0;
+		trim++;
+	}
+	return 1;
+}
+
+static int find_start_of_map(t_parser *parser, int start_i)
 {
 	char	*trim;
 	int		i;
 
-	i = -1;
+	i = start_i - 1;
 	while(parser->map2d[++i])
 	{
-		trim = ft_strtrim(parser->map2d, " \t");
+		printf("Checking line %d: [%s]\n", i, parser->map2d[i]);
+		trim = ft_strtrim(parser->map2d[i], " \t\n");
 		if (trim && *trim)
 		{
-			if(ft_strchr(trim, "10NSWE"))
+			printf("Trimmed line: [%s]\n", trim);
+			if(map_line(trim))
+			{
+				parser->start_line_map = i;
+				printf("DEBUG: parser->map_started = %d\n", parser->start_line_map);
+				// printf("%s\n", trim);
+				free(trim);
+				return (0);
+			}
+			else
 			{
 				free(trim);
-				parser->map_started = i;
-				return 0;	
+				exit_error("Invalid line of map");
 			}
 		}
+		free(trim);
 	}
-	exit_error("could not find the map");
-	return 1;
+	exit_error("Could not find start of map");
+	return (1);	
 }
 
 static	int	check_all_elements_file(char *trim, t_parser *parser)
@@ -95,6 +116,8 @@ int	parse_map(t_parser *parser)
 		if (!parser->c_found)
 			exit_error("Error: Ceiling_Color not found\n");
 	}
-	find_start_of_map(parser);
+	printf("%d\n", i);
+	find_start_of_map(parser, i + 1);
+	// printf("--> map count line :%d\n", parser->map_started);
 	return (0);
 }

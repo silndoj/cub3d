@@ -83,6 +83,25 @@ static	int	check_all_elements_file(char *trim, t_parser *parser)
 		parser->all_elements = true;
 	return (0);
 }
+static	int		create_int_array(t_parser *parser)
+{
+	int		i;
+
+	parser->map = ft_malloc(sizeof(int *) * parser->map_height);
+	if(!parser->map)
+		exit_error("Failed to alocate memory for rows");
+	i = 0;
+	while (i < parser->map_height)
+	{
+		parser->map[i] = ft_malloc(sizeof(int) * parser->map_width);
+		if (!parser->map[i])
+			exit_error("Failed to alocate memory for col");
+		i++;
+	}
+	return 0;
+}
+
+
 
 static	void convert_map_to_int(t_parser *parser)
 {
@@ -112,6 +131,8 @@ static	void convert_map_to_int(t_parser *parser)
 	}
 	printf("map height %d\n", map_height);
 	printf("map width %d\n", map_width);
+	parser->map_height = map_height;
+	parser->map_width = map_width;
 }
 
 int	parse_map(t_parser *parser)
@@ -120,7 +141,6 @@ int	parse_map(t_parser *parser)
 	int		i;
 
 	i = -1;
-	init_map(parser);
 	while (parser->map2d[++i] && !parser->all_elements)
 	{
 		trim = ft_strtrim(parser->map2d[i], " \t");
@@ -149,6 +169,8 @@ int	parse_map(t_parser *parser)
 	// printf("%d\n", i);
 	find_start_of_map(parser, i + 1);
 	convert_map_to_int(parser);
+	create_int_array(parser);
+	put_map_elements(parser);
 	// printf("--> map count line :%d\n", parser->map_started);
 	return (0);
 }

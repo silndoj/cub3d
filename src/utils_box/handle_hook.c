@@ -6,7 +6,7 @@
 /*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:19:38 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/09 03:38:10 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/09 04:30:02 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,20 @@ void	handle_movement(t_game *g, double move_speed, int direction)
 	}
 }
 
+void	handle_strafe(t_game *g, double move_speed, int direction)
+{
+	double	new_x;
+	double	new_y;
+
+	new_x = g->player.px + g->player.plane_x * move_speed * direction;
+	new_y = g->player.py + g->player.plane_y * move_speed * direction;
+	if (g->parser.map[(int)new_y][(int)new_x] == 0)
+	{
+		g->player.px = new_x;
+		g->player.py = new_y;
+	}
+}
+
 void	ft_hook(void *param)
 {
 	static double	o_time = 0;
@@ -61,8 +75,12 @@ void	ft_hook(void *param)
 		return (close_hook(game));
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		handle_movement(game, f_time * 5.0, 1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_A))
+		handle_strafe(game, f_time * 5.0, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		handle_movement(game, f_time * 5.0, -1);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_D))
+		handle_strafe(game, f_time * 5.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		handle_rotation(game, f_time * 3.0, 1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))

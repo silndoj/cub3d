@@ -48,8 +48,10 @@ static	int	find_start_of_map(t_parser *parser, int start_i)
 	while (parser->map2d[++i])
 	{
 		if (!parser->map2d[i] || !*parser->map2d[i])
+		{
 			ft_is_emty_line(parser->map2d[i]);
 			continue;
+		}
 		if (map_line(parser->map2d[i]))
 		{
 			parser->start_line_map = i;

@@ -42,14 +42,11 @@ static	int	map_line(char *trim)
 
 static	int	find_start_of_map(t_parser *parser, int start_i)
 {
-	// char	*trim;
 	int		i;
 
 	i = start_i - 1;
 	while (parser->map2d[++i])
 	{
-		// trim = ft_
-		strtrim(parser->map2d[i], " \t\n");
 		if (!parser->map2d[i] || !*parser->map2d[i])
 			ft_is_emty_line(parser->map2d[i]);
 			continue;
@@ -111,10 +108,11 @@ static	int	create_int_array(t_parser *parser)
 	return (0);
 }
 
-static	int fill_map(t_parser *parser, char c, int len)
+static	int fill_map(t_parser *parser)
 {
 	int start_line;
 	int x;
+	int len;
 	int y;
 	char c;
 
@@ -124,13 +122,13 @@ static	int fill_map(t_parser *parser, char c, int len)
 	parser->player_found = false;
 	while (y < parser->map_height && parser->map2d[parser->start_line_map])
 	{
-		len = ft_strlen(parser->map2d[parse_maper->start_line_map]);
+		len = ft_strlen(parser->map2d[parser->start_line_map]);
 		x = 0;
 		while (x < parser->map_width)
 		{
 			if (x < len)
 			{
-				c = parser.map2d[parser->start_line_map][x];
+				c = parser->map2d[parser->start_line_map][x];
 			}
 			else
 				c = ' ';
@@ -139,19 +137,19 @@ static	int fill_map(t_parser *parser, char c, int len)
 			else if (c == '0')
 				parser->map1[y][x] = 0;
 			else if (c == ' ' || c == '\t')
-				parser->map1[y][x] = -2;
+				parser->map1[y][x] = -1;
 			else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 			{
 				if (parser->player_found)
 					exit_error("Miltiple players found");
+				parser->map1[y][x] = 0;
+				parser->player_found = true;
+				parser->player_pos_x = x;
+				parser->player_pos_y = y;
+				parser->player_direction = c;	
 			}
-			parser->map1[y][x] = 0;
-			parser->player_found = true;
-			parser->player_pos_x = x;
-			parser->player_pos_y = y;
-			parse_mapr->player_direction = c;
-			else if (c != '\n' && c == != '\0')
-				exit_error("Invalid character");
+			else if (c != '\n' && c != '\0')
+				exit_error("invalid characters");
 			x++;
 		}
 		y++;
@@ -179,7 +177,7 @@ static	void convert_map_to_int(t_parser *parser)
 
 	while (parser->map2d[i])
 	{
-	
+
 		if (map_line(parser->map2d[i]))
 		{
 			map_height++;
@@ -196,7 +194,7 @@ static	void convert_map_to_int(t_parser *parser)
 			if (len > map_width)
 				map_width = len;
 		}
-		if (trim && *trim)
+		if (map_height > 0)
 		{
 			map_height++;
 		}
@@ -206,7 +204,6 @@ static	void convert_map_to_int(t_parser *parser)
 	parser->map_width = map_width;
 	if (map_height == 0 || map_width == 0)
 		exit_error("Map is empty");
-	return (0);
 }
 
 static void check_all(t_parser *parser)
@@ -281,11 +278,14 @@ static void check_walls(t_parser *parser)
 
 	parser->invalid_map = false;
 	wall = ft_malloc(sizeof(int *) * parser->map_height);
-		exit_error("faild alocation for check_walls()->H");
 	if(!wall)
+		exit_error("faild alocation for check_walls()->H");
 	i = 0;
-	while (i++ < parser->map_height)
+	while (i < parser->map_height)
+	{ 
 		wall[i] = NULL;
+		i++;
+	}
 	i = 0;
 	while (i < parser->map_height)
 	{
@@ -336,15 +336,11 @@ int	parse_map(t_parser *parser)
 			check_all_elements_file(trim, parser);
 		free(trim);
 	}
-	// if (!parser->no_found || !parser->so_found || !parser->ea_found
-	// 	|| !parser->we_found || !parser->f_found || !parser->c_found)
-	// {
-		// }
 	check_all(parser);
 	find_start_of_map(parser, i + 1);
 	convert_map_to_int(parser);
 	create_int_array(parser);
-	put_map_elements(parser);
+	fill_map(parser);
 	check_walls(parser);
 	extra_char(parser);
 	return (0);

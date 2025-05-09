@@ -6,11 +6,11 @@
 /*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 00:02:44 by silndoj           #+#    #+#             */
-/*   Updated: 2025/04/30 17:03:57 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/09 02:42:36 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include	"../inc/cub3d.h"
+#include "../inc/cub3d.h"
 #include <unistd.h>
 
 void	errno_exit(void)

@@ -1,7 +1,7 @@
 EXEC		:= cub3D
 
 CC			= cc
-CFLAGS		= -g -Wextra -Wall -Werror
+CFLAGS		= -Wextra -Wall -Werror -Wunreachable-code -Ofast
 
 LIBFT		= src/inc/libft/libft.a
 LIBFT_D		= src/inc/libft

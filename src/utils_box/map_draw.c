@@ -6,143 +6,155 @@
 /*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:56:10 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/08 22:38:06 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/09 02:46:21 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 
-void	dda_loop(t_game* g)
+void	dda_loop(t_game *g)
 {
 	while (!g->player.hit)
 	{
-		if (g->player.sDistX < g->player.sDistY)
+		if (g->player.sdist_x < g->player.sdist_y)
 		{
-			g->player.sDistX +=	g->player.dDistX;
-			g->player.mapX += g->player.stepX;
+			g->player.sdist_x += g->player.ddist_x;
+			g->player.map_x += g->player.step_x;
 			g->player.side = 0;
 		}
 		else
 		{
-			g->player.sDistY += g->player.dDistY;
-			g->player.mapY += g->player.stepY;
+			g->player.sdist_y += g->player.ddist_y;
+			g->player.map_y += g->player.step_y;
 			g->player.side = 1;
 		}
-		if(g->parser.map[g->player.mapY][g->player.mapX] > 0)
+		if (g->parser.map[g->player.map_y][g->player.map_x] > 0)
 			g->player.hit = 1;
 	}
 }
 
-void	dda_algo(t_game* g)
+void	dda_algo(t_game *g)
 {
-	if (g->player.rDirX < 0)
+	double	*temp;
+
+	temp = &g->player.sdist_x;
+	if (g->player.rdir_x < 0)
 	{
-		g->player.stepX = -1;
-		g->player.sDistX = (g->player.px - g->player.mapX) * g->player.dDistX;
+		g->player.step_x = -1;
+		*temp = (g->player.px - g->player.map_x) * g->player.ddist_x;
 	}
 	else
 	{
-		g->player.stepX = 1;
-		g->player.sDistX = (g->player.mapX + 1.0 - g->player.px) * g->player.dDistX;
+		g->player.step_x = 1;
+		*temp = (g->player.map_x + 1.0 - g->player.px) * g->player.ddist_x;
 	}
-	if (g->player.rDirY < 0)
+	temp = &g->player.sdist_y;
+	if (g->player.rdir_y < 0)
 	{
-		g->player.stepY = -1;
-		g->player.sDistY = (g->player.py - g->player.mapY) * g->player.dDistY;
+		g->player.step_y = -1;
+		*temp = (g->player.py - g->player.map_y) * g->player.ddist_y;
 	}
 	else
 	{
-		g->player.stepY = 1;
-		g->player.sDistY = (g->player.mapY + 1.0 - g->player.py) * g->player.dDistY;
+		g->player.step_y = 1;
+		*temp = (g->player.map_y + 1.0 - g->player.py) * g->player.ddist_y;
 	}
 	dda_loop(g);
 }
 
-void draw_walls(t_game* g, int x)
+void	put_textures(t_game *g, int tex_index, int x)
 {
-    int l_h, d_s, d_e, y, t_x, t_y;
-    double w_x, st, t_p;
-    uint32_t t_c;
-    int tex_index; // Add texture index variable
+	double		w_x;
+	double		st;
+	double		t_p;
+	uint32_t	t_c;
 
-    g->player.pWallDist = g->player.side ? 
-        (g->player.sDistY - g->player.dDistY) : 
-        (g->player.sDistX - g->player.dDistX);
-    l_h = HEIGHT / g->player.pWallDist;
-    d_s = fmax(-l_h/2 + HEIGHT/2, 0);
-    d_e = fmin(l_h/2 + HEIGHT/2, HEIGHT-1);
+	g->start = g->parser.d_s;
+	g->end = g->parser.d_e;
+	draw_ceiling_and_floor(g, x);
+	if (g->textures[tex_index])
+	{
+		if (g->player.side)
+			w_x = g->player.px + g->player.pw_dist * g->player.rdir_x;
+		else
+			w_x = g->player.py + g->player.pw_dist * g->player.rdir_y;
+		w_x -= floor(w_x);
+		g->parser.t_x = (int)(w_x * (double)g->textures[tex_index]->width);
+		if ((g->player.side == 0 && g->player.rdir_x < 0)
+			|| (g->player.side == 1 && g->player.rdir_y > 0))
+			g->parser.t_x = g->textures[tex_index]->width - g->parser.t_x - 1;
+		st = (double)g->textures[tex_index]->height / g->parser.l_h;
+		t_p = (g->parser.d_s - HEIGHT / 2 + g->parser.l_h / 2) * st;
+		g->parser.y = g->parser.d_s;
+		while (g->parser.y < g->parser.d_e)
+		{
+			g->parser.t_y = (int)t_p & (g->textures[tex_index]->height - 1);
+			t_c = ((uint32_t *) g->textures[tex_index]->pixels)
+			[g->parser.t_y * g->textures[tex_index]->width + g->parser.t_x];
+			if (g->player.side)
+				t_c = (t_c >> 1) & 0x7F7F7F7F;
+			mlx_put_pixel(g->img, x, g->parser.y++, t_c);
+			t_p += st;
+		}
+	}
+	else
+	{
+		t_c = 0xFFAAAAAA;
+		g->y = g->start;
+		while (g->y < g->end)
+			mlx_put_pixel(g->img, x, g->y++, t_c);
+	}
+}
 
-    // Determine texture index based on wall side and direction
-    if (g->player.side == 0)
-    {
-        if (g->player.rDirX > 0)
-            tex_index = 0; // East wall
-        else
-            tex_index = 1; // West wall
-    }
-    else
-    {
-        if (g->player.rDirY > 0)
-            tex_index = 2; // South wall
-        else
-            tex_index = 3; // North wall
-    }
+void	draw_walls(t_game *g, int x)
+{
+	int	tex_index;
 
-    if (g->textures[tex_index])
-    {
-        w_x = g->player.side ? 
-            g->player.px + g->player.pWallDist * g->player.rDirX :
-            g->player.py + g->player.pWallDist * g->player.rDirY;
-        w_x -= floor(w_x);
-        t_x = (int)(w_x * (double)g->textures[tex_index]->width);
-        // Adjust texture direction if necessary
-        if ((g->player.side == 0 && g->player.rDirX < 0) || 
-            (g->player.side == 1 && g->player.rDirY > 0))
-            t_x = g->textures[tex_index]->width - t_x - 1;
-
-        st = (double)g->textures[tex_index]->height / l_h;
-        t_p = (d_s - HEIGHT/2 + l_h/2) * st;
-        y = d_s;
-        while (y < d_e)
-        {
-            t_y = (int)t_p & (g->textures[tex_index]->height - 1);
-            t_c = ((uint32_t*)g->textures[tex_index]->pixels)
-                 [t_y * g->textures[tex_index]->width + t_x];
-            if (g->player.side) t_c = (t_c >> 1) & 0x7F7F7F7F; // Darken for y-sides
-            mlx_put_pixel(g->img, x, y++, t_c);
-            t_p += st;
-        }
-    }
-    else
-    {
-        // Fallback colors if texture isn't loaded
-        int c = g->parser.map[g->player.mapY][g->player.mapX] == 1 ? 
-            (g->parser.floor_r << 16 | g->parser.floor_g << 8 | g->parser.floor_b) : 
-            (g->parser.ceil_r << 16 | g->parser.ceil_g << 8 | g->parser.ceil_b);
-        y = d_s;
-        while (y < d_e)
-            mlx_put_pixel(g->img, x, y++, g->player.side ? (c >> 1) & 0x7F7F7F7F : c);
-    }
+	if (g->player.side)
+		g->player.pw_dist = g->player.sdist_y - g->player.ddist_y;
+	else
+		g->player.pw_dist = g->player.sdist_x - g->player.ddist_x;
+	g->parser.l_h = HEIGHT / g->player.pw_dist;
+	g->parser.d_s = fmax(-g->parser.l_h / 2 + HEIGHT / 2, 0);
+	g->parser.d_e = fmin(g->parser.l_h / 2 + HEIGHT / 2, HEIGHT - 1);
+	if (g->player.side == 0)
+	{
+		if (g->player.rdir_x > 0)
+			tex_index = 0;
+		else
+			tex_index = 1;
+	}
+	else
+	{
+		if (g->player.rdir_y > 0)
+			tex_index = 2;
+		else
+			tex_index = 3;
+	}
+	put_textures(g, tex_index, x);
 }
 
 void	cast_ray(t_game *g)
 {
-	int	x;
+	int		x;
+	double	*t1;
+	double	*t2;
 
 	x = 0;
+	t1 = &g->player.rdir_x;
+	t2 = &g->player.rdir_y;
 	while (x < WIDTH)
 	{
-		g->player.cameraX = 2 * x / (double)WIDTH - 1;
-		g->player.rDirX = g->player.dirX + g->player.planeX * g->player.cameraX;
-		g->player.rDirY = g->player.dirY + g->player.planeY * g->player.cameraX;
-		g->player.mapX = (int)g->player.px;
-		g->player.mapY = (int)g->player.py;
-		g->player.dDistX = fabs(1 / g->player.rDirX);
-		g->player.dDistY = fabs(1 / g->player.rDirY);
+		g->player.camera_x = 2 * x / (double)WIDTH - 1;
+		*t1 = g->player.dir_x + g->player.plane_x * g->player.camera_x;
+		*t2 = g->player.dir_y + g->player.plane_y * g->player.camera_x;
+		g->player.map_x = (int)g->player.px;
+		g->player.map_y = (int)g->player.py;
+		g->player.ddist_x = fabs(1 / g->player.rdir_x);
+		g->player.ddist_y = fabs(1 / g->player.rdir_y);
 		g->player.hit = 0;
 		dda_algo(g);
 		draw_walls(g, x);
 		x++;
 	}
 }
-

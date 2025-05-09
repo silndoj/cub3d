@@ -40,11 +40,11 @@ static	int	find_start_of_map(t_parser *parser, int start_i)
 				free(trim);
 				return (0);
 			}
-			else
-			{
+			// else
+			// {
 				free(trim);
 				exit_error("Invalid line of map");
-			}
+			// }
 		}
 		free(trim);
 	}
@@ -85,6 +85,7 @@ static	int	create_int_array(t_parser *parser)
 		parser->map[i] = ft_malloc(sizeof(int) * parser->map_width);
 		if (!parser->map[i])
 			exit_error("Failed to alocate memory for col");
+
 		i++;
 	}
 	return (0);
@@ -110,6 +111,9 @@ static	void fill_map(t_parser *parser, char c, int len)
 	{
 		if (parser->player_found)
 			exit_error("Multiple players found");
+		if (parser->y == 0 || parser->y == parser->map_height - 1
+			|| parser->x == 0 || parser->x == parser->map_width - 1)
+			exit_error("Player on edge");
 		parser->map[parser->y][parser->x] = 8;
 		parser->player_found = true;
 	}
@@ -209,25 +213,53 @@ static void extra_char(t_parser *parser)
 	}
 }
 
-static void map_pos(t_parser *parser, int map_start)
+// static void map_pos(t_parser *parser, int map_start)
+// {
+// 	int		i;
+// 	char	*trim;
+
+// 	i = 0;
+// 	while (i < map_start)
+// 	{
+// 		trim = ft_strtrim(parser->map2d[i], " \t\n");
+// 		if (trim && *trim)
+// 		{
+// 			free(trim);
+// 			exit_error("Map should appear in the end of the file");
+// 		}
+// 		free(trim);
+// 		i++;
+// 	}
+// }
+
+static void clean_up(t_parser *parser, int **wall)
 {
-	int		i;
-	char	*trim;
+	int i;
 
 	i = 0;
-	while (i < map_start)
+	while (i < parser->map_height)
 	{
-		trim = ft_strtrim(parser->map2d[i], " \t\n");
-		if (trim && *trim)
-		{
-			free(trim);
-			exit_error("Map should appear in the end of the file");
-		}
-		free(trim);
+		free(wall[i]);
 		i++;
 	}
 }
-static check_walls(t_parser *parser)
+
+static void flood_fill(t_parser *parser, int **wall, int y, int x)
+{
+	if (x < 0 || y < 0 || y >= parser->map_height || x >= parser->map_width)
+		exit_error("Map is not closed by walls");
+	if (parser->map[y][x] == -1)
+		exit_error("Map is not closed by walls");
+	if (wall[y][x] || parser->map[y][x] == 1)
+		return ;
+	wall[y][x] = 1;
+	flood_fill(parser, wall, y + 1, x);
+	flood_fill(parser, wall, y - 1, x);
+	flood_fill(parser, wall, y, x + 1);
+	flood_fill(parser, wall, y, x - 1);
+}
+
+static void check_walls(t_parser *parser)
 {
 	//alloc memory
 	int **wall;
@@ -239,13 +271,40 @@ static check_walls(t_parser *parser)
 	i = 0;
 	while (i < parser->map_height)
 	{
-		wall[i] = ft_malloc(sizeof(int) * parser->map_width);
+		wall[i] = ft_calloc(parser->map_width, sizeof(int));
 		if(!wall[i])
+		{
+			clean_up(parser, wall);
+			free(wall);
 			exit_error("failed alocation in check_wall()->W");
+		}
 		i++;
 	}
+	//check
+	int y;
+	int x;
+	int start;
 
-	
+	y =0;
+	start = 0;
+
+	while (y < parser->map_height)
+	{
+		x = 0;
+		while (x < parser->map_width)
+		{
+			if ((parser->map[y][x] == 0 || parser->map[y][x] == 8 ) )
+			{
+				flood_fill(parser, wall, y, x);
+				start = 1;
+			}
+			x++;
+		}
+		y++;
+	}
+	//clean up 
+	clean_up(parser, wall);
+	free(wall);
 }
 
 int	parse_map(t_parser *parser)
@@ -256,7 +315,7 @@ int	parse_map(t_parser *parser)
 	i = -1;
 	while (parser->map2d[++i] && !parser->all_elements)
 	{
-		trim = ft_strtrim(parser->map2d[i], " \t");
+		trim = ft_strtrim(parser->map2d[i], " \t\r\n");
 		if (trim && *trim)
 		{
 			if(check_all_elements_file(trim, parser))
@@ -264,15 +323,17 @@ int	parse_map(t_parser *parser)
 		}
 		free(trim);
 	}
-	check_all(parser);
+	if (!parser->no_found || !parser->so_found || !parser->ea_found
+		|| !parser->we_found || !parser->f_found || !parser->c_found)
+	{
+		check_all(parser);
+	}
 	find_start_of_map(parser, i + 1);
-	// is_it_valid(parser);
-	map_pos(parser, parser->start_line_map);
 	convert_map_to_int(parser);
-	create_int_array(parser);
+	if (create_int_array(parser))
+		return (1);
 	put_map_elements(parser);
 	check_walls(parser);
 	extra_char(parser);
-	// print_int_map(parser);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/08 21:52:33 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/08 23:00:25 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ typedef struct s_parser
 	int		start_line_map;
 	int		map_width;
 	int		map_height;
+	int		x;
+	int		y;
 	t_color	floor;
 	t_color	ceiling;
 	bool	map_found;
@@ -55,6 +57,7 @@ typedef struct s_parser
 	bool	c_found;
 	bool	floor_set;
 	bool	ceiling_set;
+	bool	player_found;
 }	t_parser;
 
 typedef struct s_game

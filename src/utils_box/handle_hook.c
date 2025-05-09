@@ -6,7 +6,7 @@
 /*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 00:19:38 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/09 00:22:11 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/09 03:38:10 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,11 @@ void	ft_hook(void *param)
 	f_time = c_time - o_time;
 	o_time = c_time;
 	clear_image(game->img);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_UP))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
+		return (close_hook(game));
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		handle_movement(game, f_time * 5.0, 1);
-	if (mlx_is_key_down(game->mlx, MLX_KEY_DOWN))
+	if (mlx_is_key_down(game->mlx, MLX_KEY_S))
 		handle_movement(game, f_time * 5.0, -1);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_LEFT))
 		handle_rotation(game, f_time * 3.0, 1);

@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/09 03:13:55 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/09 03:37:15 by silndoj          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ void	ft_hook(void *param);
 uint32_t	make_mlx_color(int r, int g, int b);
 void		clear_image(mlx_image_t *img);
 void		draw_ceiling_and_floor(t_game *g, int x);
+void		close_hook(t_game *game);
 
 //HANDLE TEXTURES
 int			handle_north_texture(char *trim, t_parser *parser);

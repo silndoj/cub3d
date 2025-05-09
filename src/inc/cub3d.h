@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/09 03:37:15 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 01:28:23 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ typedef struct s_parser
 	char	*so_texture;
 	char	*we_texture;
 	char	*ea_texture;
+	char	player_direction;
 	int		start_line_map;
 	int		map_width;
 	int		map_height;
 	int		x;
 	int		y2;
+	int		player_pos_x;
+	int		player_pos_y;
 	t_color	floor;
 	t_color	ceiling;
 	bool	map_found;
@@ -62,6 +65,7 @@ typedef struct s_parser
 	bool	floor_set;
 	bool	ceiling_set;
 	bool	player_found;
+	bool	invalid_map;
 	int		map[GRID_ROWS][GRID_COLS];
 	int		width;
 	int		height;

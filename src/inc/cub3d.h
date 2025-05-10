@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 07:53:08 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/11 01:08:48 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ void		check_assign_map_elements(t_parser *parser, int x, int y, int len);
 void		init_wall_array(int ***wall, t_parser *parser);
 void		check_walls(t_parser *parser);
 void		check_walkable_map(t_parser *parser, int **wall);
-void		check_walls(t_parser *parser);
 void		convert_map_to_int(t_parser *parser);
 //Util_Box/parser_utils.c
 int			ft_is_empty_line(char *line);
@@ -166,7 +165,8 @@ uint32_t	make_mlx_color(int r, int g, int b);
 void		clear_image(mlx_image_t *img);
 void		draw_ceiling_and_floor(t_game *g, int x);
 void		close_hook(t_game *game);
-
+void		calculate_texture_position(t_game *g, int tex_index);
+void		draw_texture_wall(t_game *g, int tex_index, int x);
 //HANDLE TEXTURES
 int			handle_north_texture(char *trim, t_parser *parser);
 int			handle_south_texture(char *trim, t_parser *parser);

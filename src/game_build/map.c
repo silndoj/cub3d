@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 07:40:39 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 07:46:55 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/11 00:51:52 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,23 @@ void	check_assign_map_elements(t_parser *parser, int x, int y, int len)
 		exit_error("Invalid character in map");
 }
 
+void	pass_data_to_final_map(t_parser *parser)
+{
+	int		i;
+	int		j;
+
+	i = 0;
+	while (i < parser->map_height && i < GRID_ROWS)
+	{
+		j = 0;
+		while (j < parser->map_width && j < GRID_COLS)
+		{
+			parser->map[i][j] = parser->map1[i][j];
+			j++;
+		}
+		i++;
+	}
+}
 
 int	parse_map(t_parser *parser)
 {
@@ -88,12 +105,6 @@ int	parse_map(t_parser *parser)
 	put_map_elements(parser);
 	check_walls(parser);
 	extra_char(parser);
-	for (i = 0; i < parser->map_height && i < GRID_ROWS; i++)
-	{
-		for (int j = 0; j < parser->map_width && j < GRID_COLS; j++)
-		{
-			parser->map[i][j] = parser->map1[i][j];
-		}
-	}
+	pass_data_to_final_map(parser);
 	return (0);
 }

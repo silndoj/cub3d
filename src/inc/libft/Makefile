@@ -1,6 +1,6 @@
 NAME		:=	libft.a
 INCL 		:=	-I./includes
-CFLAGS		:=	-Wall -Wextra -Werror
+CFLAGS		:=	-g -Wall -Wextra -Werror
 CC			:=	cc
 
 OBJ			:=	obj

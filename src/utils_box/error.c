@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 00:02:44 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/09 03:36:44 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 05:24:21 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	errno_error_mlx(void)
 	exit(EXIT_FAILURE);
 }
 
-void close_hook(t_game *game)
+void	close_hook(t_game *game)
 {
 	mlx_terminate(game->mlx);
 	free_allocations();

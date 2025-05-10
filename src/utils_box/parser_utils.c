@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 05:30:01 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 05:32:55 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 05:39:53 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,24 @@ void	check_all(t_parser *parser)
 			exit_error("Floor_Color not found");
 		if (!parser->c_found)
 			exit_error("Ceiling_Color not found");
+	}
+}
+
+void	extra_char(t_parser *parser)
+{
+	int		i;
+	char	*trim;
+
+	i = parser->start_line_map + parser->map_height;
+	while (parser->map2d[i])
+	{
+		trim = ft_strtrim(parser->map2d[i], " \t\n");
+		if (trim && *trim)
+		{
+			free(trim);
+			exit_error("Unexpected characters after map");
+		}
+		free(trim);
+		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 03:42:47 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 05:42:58 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,18 +133,26 @@ void		copy_map(int fd, t_parser *parser);
 void		print_map(t_parser *parser);
 int			parse_map(t_parser *parser);
 void		init_map(t_parser *parser);
+int			find_start_of_map(t_parser *parser, int start_i);
+int			check_all_elements_file(char *trim, t_parser *parser);
+int			create_int_array(t_parser *parser);
+int			flood_fill(t_parser *parser, int **wall, int y, int x);
+//Util_Box/parser_utils.c
+int			ft_is_empty_line(char *line);
+int			map_line(char *line);
+void		check_all(t_parser *parser);
+void		extra_char(t_parser *parser);
 
 //***utils_box/ERROR.C
-void	errno_exit(void);
-void	errno_error_mlx(void);
-int		exit_error(const char *msg);
-
+void		errno_exit(void);
+void		errno_error_mlx(void);
+int			exit_error(const char *msg);
 
 //***utils_box/MAP_DRAW.C 
-void	cast_ray(t_game *g);
+void		cast_ray(t_game *g);
 
 //***utils_box/HANDLE_HOOK.C 
-void	ft_hook(void *param);
+void		ft_hook(void *param);
 
 //***utils_box/UTILS.C
 uint32_t	make_mlx_color(int r, int g, int b);

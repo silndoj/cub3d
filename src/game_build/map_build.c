@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 01:51:07 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 04:17:18 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	check_map(char *file, t_parser *parser)
 	if (fd == -1)
 		return (errno_exit(), 1);
 	copy_map(fd, parser);
+	print_map(parser);
 	close(fd);
 	if (parse_map(parser))
 		return (1);
@@ -42,20 +43,17 @@ int	check_map(char *file, t_parser *parser)
 void	copy_map(int fd, t_parser *parser)
 {
 	char	*line;
-	char	*trim = NULL;
-	char	*newline;
 	int		i;
 
 	i = 0;
 	parser->map2d = (char **) ft_malloc(sizeof(char *) * 1000);
 	while ((line = get_next_line(fd)))
 	{
-		newline = ft_strchr(line, '\n');
+		char *newline = ft_strchr(line, '\n');
 		if (newline)
 			*newline = '\0';
-		// trim = ft_strtrim(line, "\n");
-		// free(line);
-		parser->map2d[i] = trim;
+		
+		parser->map2d[i] = line;
 		i++;
 	}
 	parser->map2d[i] = NULL;

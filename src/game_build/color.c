@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:13:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/09 19:44:35 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 04:16:52 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,15 @@ int	handle_floor_color(char *trim, t_parser *parser)
 
 	floor = ft_strtrim(trim + 1, " \t");
 	if (!floor)
-		exit_error("Faild to find FLOOR_COLOR");
+		exit_error("Failed to find FLOOR_COLOR");
 	value = ft_split(floor, ',');
 	free(floor);
 	i = 0;
-	while (value[i])
+	while (value && value[i])
 		i++;
 	if (!value || i != 3)
 	{
-		if(value)
+		if (value)
 		{
 			ft_clean_split(value, i);
 			free(value);
@@ -73,15 +73,15 @@ int	handle_ceiling_color(char *trim, t_parser *parser)
 
 	ceiling = ft_strtrim(trim + 1, " \t");
 	if (!ceiling)
-		exit_error("Faild to find CEILING_COLOR");
+		exit_error("Failed to find CEILING_COLOR");
 	value = ft_split(ceiling, ',');
 	free(ceiling);
 	i = 0;
-	while (value[i])
+	while (value && value[i])
 		i++;
 	if (!value || i != 3)
 	{
-		if(value)
+		if (value)
 		{
 			ft_clean_split(value, i);
 			free(value);

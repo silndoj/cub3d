@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 01:28:23 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 03:42:47 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_parser
 	char	*so_texture;
 	char	*we_texture;
 	char	*ea_texture;
-	char	player_direction;
+	char	player_dir;
 	int		start_line_map;
 	int		map_width;
 	int		map_height;

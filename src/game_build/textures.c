@@ -15,22 +15,28 @@
 int	handle_north_texture(char *trim, t_parser *parser)
 {
 	int	fd;
-	int len;
 
 	if (parser->no_texture)
-		exit_error("NO_texture is dublicated");
+		exit_error("NO_texture is duplicated");
 	parser->no_texture = ft_strtrim(trim + 3, " \t\n");
 	if (!parser->no_texture || parser->no_texture[0] == '\0')
 	{
 		free(parser->no_texture);
 		exit_error("Failed to find the path for NO_texture");
 	}
-	len = ft_strlen(parser->no_texture);
-	if (len < 4 || ft_strcmp(parser->no_texture + len - 4, ".png") != 0)
-		exit_error("NO_texture should be a .png file");
+	int len = ft_strlen(parser->no_texture);
+	if (len < 4 || ft_strncmp(parser->no_texture + len - 4, ".png", 4) != 0)
+	{
+		printf("Invalid texture format: %s (must be .png)\n", parser->no_texture);
+		exit_error("North texture must have .png extension");
+	}
 	fd = open(parser->no_texture, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("Failed to open NO texture: %s\n", parser->no_texture);
+		perror("Error");
 		exit_error("NO_texture not found or inaccessible");
+	}
 	close(fd);
 	parser->no_found = true;
 	return (0);
@@ -39,22 +45,28 @@ int	handle_north_texture(char *trim, t_parser *parser)
 int	handle_south_texture(char *trim, t_parser *parser)
 {
 	int	fd;
-	int len;
 
 	if (parser->so_texture)
-		exit_error("SO_texture is dublicated");
+		exit_error("SO_texture is duplicated");
 	parser->so_texture = ft_strtrim(trim + 3, " \t\n");
 	if (!parser->so_texture || parser->so_texture[0] == '\0')
 	{
 		free(parser->so_texture);
 		exit_error("Failed to find the path for SO_texture");
 	}
-	len = ft_strlen(parser->so_texture);
-	if (len < 4 || ft_strcmp(parser->so_texture + len - 4, ".png") != 0)
-		exit_error("NO_texture should be a .png file");
+	int len = ft_strlen(parser->so_texture);
+	if (len < 4 || ft_strncmp(parser->so_texture + len - 4, ".png", 4) != 0)
+	{
+		printf("Invalid texture format: %s (must be .png)\n", parser->so_texture);
+		exit_error("South texture must have .png extension");
+	}
 	fd = open(parser->so_texture, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("Failed to open SO texture: %s\n", parser->so_texture);
+		perror("Error");
 		exit_error("SO_texture not found or inaccessible");
+	}
 	close(fd);
 	parser->so_found = true;
 	return (0);
@@ -63,22 +75,28 @@ int	handle_south_texture(char *trim, t_parser *parser)
 int	handle_east_texture(char *trim, t_parser *parser)
 {
 	int	fd;
-	int len;
 
 	if (parser->ea_texture)
-		exit_error("EA_texture is dublicated");
+		exit_error("EA_texture is duplicated");
 	parser->ea_texture = ft_strtrim(trim + 3, " \t\n");
 	if (!parser->ea_texture || parser->ea_texture[0] == '\0')
 	{
 		free(parser->ea_texture);
 		exit_error("Failed to find the path for EA_texture");
 	}
-	len = ft_strlen(parser->ea_texture);
-	if (len < 4 || ft_strcmp(parser->ea_texture + len - 4, ".png") != 0)
-		exit_error("NO_texture should be a .png file");
+	int len = ft_strlen(parser->ea_texture);
+	if (len < 4 || ft_strncmp(parser->ea_texture + len - 4, ".png", 4) != 0)
+	{
+		printf("Invalid texture format: %s (must be .png)\n", parser->ea_texture);
+		exit_error("East texture must have .png extension");
+	}
 	fd = open(parser->ea_texture, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("Failed to open EA texture: %s\n", parser->ea_texture);
+		perror("Error");
 		exit_error("EA_texture not found or inaccessible");
+	}
 	close(fd);
 	parser->ea_found = true;
 	return (0);
@@ -87,22 +105,28 @@ int	handle_east_texture(char *trim, t_parser *parser)
 int	handle_west_texture(char *trim, t_parser *parser)
 {
 	int	fd;
-	int len;
 
 	if (parser->we_texture)
-		exit_error("WE_texture is dublicated");
-	parser->we_texture = ft_strtrim(trim + 3, " \t\n");
+		exit_error("WE_texture is duplicated");
+		parser->we_texture = ft_strtrim(trim + 3, " \t\n");
 	if (!parser->we_texture || parser->we_texture[0] == '\0')
 	{
 		free(parser->we_texture);
 		exit_error("Failed to find the path for WE_texture");
 	}
-	len = ft_strlen(parser->we_texture);
-	if (len < 4 || ft_strcmp(parser->we_texture + len - 4, ".png") != 0)
-		exit_error("NO_texture should be a .png file");
+	int len = ft_strlen(parser->we_texture);
+	if (len < 4 || ft_strncmp(parser->we_texture + len - 4, ".png", 4) != 0)
+	{
+		printf("Invalid texture format: %s (must be .png)\n", parser->we_texture);
+		exit_error("West texture must have .png extension");
+	}
 	fd = open(parser->we_texture, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("Failed to open WE texture: %s\n", parser->we_texture);
+		perror("Error");
 		exit_error("WE_texture not found or inaccessible");
+	}
 	close(fd);
 	parser->we_found = true;
 	return (0);

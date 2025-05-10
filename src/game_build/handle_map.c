@@ -47,6 +47,7 @@ static	int	put_map_elements(t_parser *parser)
 	int	y;
 	int	len;
 
+	x = 0;
 	start_line = parser->start_line_map;
 	y = -1;
 	parser->player_found = false;
@@ -130,7 +131,7 @@ static void	init_wall_array(int ***wall, t_parser *parser)
 	}
 }
 
-static	void check_walkable_map(t_parser *parser, int **wall)
+static void	check_walkable_map(t_parser *parser, int **wall)
 {
 	int	y;
 	int	x;
@@ -141,25 +142,25 @@ static	void check_walkable_map(t_parser *parser, int **wall)
 		x = 0;
 		while (x < parser->map_width)
 		{
-		if (parser->map1[y][x] == 0)
-		{
-			flood_fill(parser, wall, y, x);
-			if (parser->invalid_map)
+			if (parser->map1[y][x] == 0)
 			{
-				exit_error("Map is not completely enclosed by walls");
+				flood_fill(parser, wall, y, x);
+				if (parser->invalid_map)
+				{
+					exit_error("Map is not completely enclosed by walls");
+				}
+				y = parser->map_height;
+				break ;
 			}
-			y = parser->map_height;
-			break;
+			x++;
 		}
-				x++;
-			}
-			y++;
-		}
+		y++;
+	}
 }
 
-static	void check_walls(t_parser *parser)
+static void	check_walls(t_parser *parser)
 {
-	int **wall;
+	int	**wall;
 
 	parser->invalid_map = false;
 	init_wall_array(&wall, parser);
@@ -172,28 +173,7 @@ static	void check_walls(t_parser *parser)
 		}
 	}
 	else
-	{
-		int y = 0;
-		while (y < parser->map_height)
-		{
-			int x = 0;
-			while (x < parser->map_width)
-			{
-				if (parser->map1[y][x] == 0)
-				{
-					flood_fill(parser, wall, y, x);
-					if (parser->invalid_map)
-					{
-						exit_error("Map is not completely enclosed by walls");
-					}
-					y = parser->map_height;
-					break;
-				}
-				x++;
-			}
-			y++;
-		}
-	}
+		check_walkable_map(parser, wall);
 }
 
 int	parse_map(t_parser *parser)

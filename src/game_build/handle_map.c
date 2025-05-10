@@ -66,43 +66,46 @@ static	int	put_map_elements(t_parser *parser)
 	return (0);
 }
 
-static	void convert_map_to_int(t_parser *parser)
+static void	get_map_dimensions(t_parser *parser, int *width, int *height)
 {
 	int		i;
-	int		map_width;
-	int		map_height;
 	int		len;
 
+	*width = 0;
+	*height = 0;
 	i = parser->start_line_map;
-	map_width = 0;
-	map_height = 0;
-	len = 0;
 	while (parser->map2d[i])
 	{
 		if (map_line(parser->map2d[i]))
 		{
-			map_height++;
+			(*height)++;
 			len = ft_strlen(parser->map2d[i]);
-			if (len > map_width)
-				map_width = len;
+			if (len > (*width))
+				(*width) = len;
 		}
 		else if (!ft_is_empty_line(parser->map2d[i]))
 		{
-			break;
+			break ;
 		}
-		else if (map_height > 0)
-		{
-			map_height++;
-		}
+		else if ((*height) > 0)
+			(*height)++;
 		i++;
 	}
+}
+
+static void	convert_map_to_int(t_parser *parser)
+{
+	int		map_width;
+	int		map_height;
+
+	get_map_dimensions(parser, &map_width, &map_height);
 	parser->map_height = map_height;
 	parser->map_width = map_width;
 	if (map_height == 0 || map_width == 0)
 		exit_error("Invalid map dimensions");
 }
 
-static void check_walls(t_parser *parser)
+static	void check_walls(t_parser *parser)
 {
 	int **wall;
 	int i;

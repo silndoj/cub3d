@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_build.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 05:18:03 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:59:28 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ void	copy_map(int fd, t_parser *parser)
 	char	*line;
 	char	*newline;
 	int		i;
-	int		j;
 
 	i = 0;
-	j = 0;
 	parser->map2d = (char **) ft_malloc(sizeof(char *) * 1000);
 	while ((line = get_next_line(fd)))
 	{

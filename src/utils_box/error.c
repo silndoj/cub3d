@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 00:02:44 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 05:24:21 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:14:29 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,21 @@ int	exit_error(const char *msg)
 
 void	errno_exit(void)
 {
-	write(STDERR_FILENO, "Error: ", 7);
+	if (write(STDERR_FILENO, "Error: ", 7) < 0)
+		return ;
 	perror(strerror(errno));
-	write(STDERR_FILENO, "\n", 1);
+	if (write(STDERR_FILENO, "\n", 1) < 0)
+		return ;
 	exit(EXIT_FAILURE);
 }
 
 void	errno_error_mlx(void)
 {
-	write(STDERR_FILENO, "Error: ", 7);
+	if (write(STDERR_FILENO, "Error: ", 7) < 0)
+		return ;
 	perror(mlx_strerror(mlx_errno));
-	write(STDERR_FILENO, "\n", 1);
+	if (write(STDERR_FILENO, "\n", 1) < 0)
+		return ;
 	exit(EXIT_FAILURE);
 }
 

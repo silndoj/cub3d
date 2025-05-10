@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:36:25 by silndoj           #+#    #+#             */
-/*   Updated: 2024/10/24 16:46:52 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:07:44 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	format_c(const char *s, int *count, va_list args)
 		ft_putchar_count('%', count);
 	else
 	{
-		write(1, s, 1);
+		if (write(1, s, 1) < 0)
 		count++;
 	}
 }
@@ -53,7 +53,7 @@ int	ft_printf(const char *s, ...)
 	{
 		if (*s != '%')
 		{
-			write(1, s++, 1);
+			if(write(1, s++, 1) < 0)
 			count++;
 		}
 		if (*s == '%')

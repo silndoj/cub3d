@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:25 by silndoj           #+#    #+#             */
-/*   Updated: 2025/03/19 19:51:36 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:12:25 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	**get_allocation_array(size_t *count)
 		allocation_array = (void **)malloc(10000 * sizeof(void *));
 		if (allocation_array == NULL)
 		{
-			write(1, "Failed to initialize allocation array.\n", 39);
+			if (write(1, "Failed to initialize allocation array.\n", 39) < 0)
 			return (NULL);
 		}
 		allocation_count = 0;
@@ -52,7 +52,7 @@ void	add_to_allocation_array(void *ptr)
 	allocation_array = get_allocation_array(&count);
 	if (count >= 10000)
 	{
-		write(1, "Reached maximum allocation capacity.\n", 37);
+		if (write(1, "Reached maximum allocation capacity.\n", 37) < 0)
 		return ;
 	}
 	allocation_array[count] = ptr;
@@ -65,7 +65,7 @@ void	*ft_malloc(int size)
 	ptr = malloc(size);
 	if (ptr == NULL)
 	{
-		write(1, "Failed to initialize allocation array.\n", 39);
+		if (write(1, "Failed to initialize allocation array.\n", 39) < 0)
 		free_allocations();
 		return (NULL);
 	}
@@ -80,5 +80,6 @@ void	free_allocations(void)
 
 	allocation_array = get_allocation_array(&count);
 	free_2d(allocation_array, count);
-	write(1, "All allocated memory freed.\n", 28);
+	if (write(1, "All allocated memory freed.\n", 28) < 0)
+		return ;
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:47:41 by silndoj           #+#    #+#             */
-/*   Updated: 2024/10/24 16:45:31 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:06:52 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	ft_putstr_count(char *ptr, int *count)
 		ptr = "(null)\0";
 	while (ptr[i])
 		i++;
-	write(1, ptr, i);
+	if (write(1, ptr, i) < 0)
 	*count += i;
 }

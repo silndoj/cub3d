@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: silndoj <silndoj@student.42heilbronn.de>   +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/17 23:06:00 by silndoj           #+#    #+#             */
-/*   Updated: 2024/10/24 19:30:00 by silndoj          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:09:29 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,6 @@
 
 void	ft_putchar_fd(char c, int fd)
 {
-	write (fd, &c, 1);
+	if (write (fd, &c, 1) < 0)
+		return ;
 }

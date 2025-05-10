@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
+/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 05:42:58 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 07:53:08 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,13 @@ int			find_start_of_map(t_parser *parser, int start_i);
 int			check_all_elements_file(char *trim, t_parser *parser);
 int			create_int_array(t_parser *parser);
 int			flood_fill(t_parser *parser, int **wall, int y, int x);
+int			put_map_elements(t_parser *parser);
+void		check_assign_map_elements(t_parser *parser, int x, int y, int len);
+void		init_wall_array(int ***wall, t_parser *parser);
+void		check_walls(t_parser *parser);
+void		check_walkable_map(t_parser *parser, int **wall);
+void		check_walls(t_parser *parser);
+void		convert_map_to_int(t_parser *parser);
 //Util_Box/parser_utils.c
 int			ft_is_empty_line(char *line);
 int			map_line(char *line);

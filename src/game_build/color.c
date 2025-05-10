@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:13:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 04:16:52 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 04:56:02 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,37 @@ static	void	ft_clean_split(char **split, int index)
 	}
 }
 
+static	void	check_rgb_count(char **value, int i)
+{
+	while (value && value[i])
+		i++;
+	if (!value || i != 3)
+	{
+		if (value)
+		{
+			ft_clean_split(value, i);
+			free(value);
+		}
+		exit_error("Invalid Color Format.. try (R,G,B)");
+	}
+}
+
+static int	validate_rgb(t_color *color, char **value, int i)
+{
+	color->r = ft_atoi(value[0]);
+	color->g = ft_atoi(value[1]);
+	color->b = ft_atoi(value[2]);
+	if ((color->r < 0 || color->r > 255)
+		|| (color->g < 0 || color->g > 255)
+		|| (color->b < 0 || color->b > 255))
+	{
+		ft_clean_split(value, i);
+		free(value);
+		exit_error("R,G,B values should be between the range of 0 to 255");
+	}
+	return (0);
+}
+
 int	handle_floor_color(char *trim, t_parser *parser)
 {
 	char	*floor;
@@ -36,28 +67,8 @@ int	handle_floor_color(char *trim, t_parser *parser)
 	value = ft_split(floor, ',');
 	free(floor);
 	i = 0;
-	while (value && value[i])
-		i++;
-	if (!value || i != 3)
-	{
-		if (value)
-		{
-			ft_clean_split(value, i);
-			free(value);
-		}
-		exit_error("Invalid Color Format.. try (R,G,B)");
-	}
-	parser->floor.r = ft_atoi(value[0]);
-	parser->floor.g = ft_atoi(value[1]);
-	parser->floor.b = ft_atoi(value[2]);
-	if ((parser->floor.r < 0 || parser->floor.r > 255)
-		|| (parser->floor.g < 0 || parser->floor.g > 255)
-		|| (parser->floor.b < 0 || parser->floor.b > 255))
-	{
-		ft_clean_split(value, i);
-		free(value);
-		exit_error("R,G,B values should be between the range of 0 to 255");
-	}
+	check_rgb_count(value, i);
+	validate_rgb(&parser->floor, value, i);
 	parser->floor_set = true;
 	parser->f_found = true;
 	ft_clean_split(value, i);
@@ -77,28 +88,8 @@ int	handle_ceiling_color(char *trim, t_parser *parser)
 	value = ft_split(ceiling, ',');
 	free(ceiling);
 	i = 0;
-	while (value && value[i])
-		i++;
-	if (!value || i != 3)
-	{
-		if (value)
-		{
-			ft_clean_split(value, i);
-			free(value);
-		}
-		exit_error("Invalid Color Format.. try (R,G,B)");
-	}
-	parser->ceiling.r = ft_atoi(value[0]);
-	parser->ceiling.g = ft_atoi(value[1]);
-	parser->ceiling.b = ft_atoi(value[2]);
-	if ((parser->ceiling.r < 0 || parser->ceiling.r > 255)
-		|| (parser->ceiling.g < 0 || parser->ceiling.g > 255)
-		|| (parser->ceiling.b < 0 || parser->ceiling.b > 255))
-	{
-		ft_clean_split(value, i);
-		free(value);
-		exit_error("R,G,B values should be between the range of 0 to 255");
-	}
+	check_rgb_count(value, i);
+	validate_rgb(&parser->floor, value, i);
 	parser->ceiling_set = true;
 	parser->c_found = true;
 	ft_clean_split(value, i);

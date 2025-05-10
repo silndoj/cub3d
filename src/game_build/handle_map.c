@@ -345,6 +345,5 @@ int	parse_map(t_parser *parser)
 			parser->map[i][j] = parser->map1[i][j];
 		}
 	}
-
 	return (0);
 }

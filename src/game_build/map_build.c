@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 14:16:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 04:17:18 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/10 05:18:03 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	map_build(int ac, char *av[], t_parser *parser)
 {
 	if (ac != 2)
 		exit_error("Error: Wrong number of arguments\n");
-	// parser = (t_parser *) ft_malloc(sizeof(t_parser));
 	init_map(parser);
 	return (check_map(av[1], parser));
 }
@@ -43,16 +42,18 @@ int	check_map(char *file, t_parser *parser)
 void	copy_map(int fd, t_parser *parser)
 {
 	char	*line;
+	char	*newline;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	parser->map2d = (char **) ft_malloc(sizeof(char *) * 1000);
 	while ((line = get_next_line(fd)))
 	{
-		char *newline = ft_strchr(line, '\n');
+		newline = ft_strchr(line, '\n');
 		if (newline)
 			*newline = '\0';
-		
 		parser->map2d[i] = line;
 		i++;
 	}

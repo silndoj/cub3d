@@ -12,51 +12,50 @@
 
 #include "../inc/cub3d.h"
 
+static void	check_assign_map_elements(t_parser *parser, int x, int y, int len)
+{
+	char	c;
+
+	if (x < len)
+		c = parser->map2d[parser->start_line_map][x];
+	else
+		c = ' ';
+	if (c == '1')
+		parser->map1[y][x] = 1;
+	else if (c == '0')
+		parser->map1[y][x] = 0;
+	else if (c == ' ' || c == '\t')
+		parser->map1[y][x] = -1;
+	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
+	{
+		if (parser->player_found)
+			exit_error("Multiple players found");
+		parser->map1[y][x] = 0;
+		parser->player_found = true;
+		parser->player_pos_x = x;
+		parser->player_pos_y = y;
+		parser->player_dir = c;
+	}
+	else if (c != '\n' && c != '\0')
+		exit_error("Invalid character in map");
+}
+
 static	int	put_map_elements(t_parser *parser)
 {
 	int	start_line;
-	int	x, y, len;
-	char	c;
+	int	x;
+	int	y;
+	int	len;
 
 	start_line = parser->start_line_map;
-	x = 0;
-	y = 0;
+	y = -1;
 	parser->player_found = false;
-	while (y < parser->map_height && parser->map2d[parser->start_line_map])
+	while (++y < parser->map_height && parser->map2d[parser->start_line_map])
 	{
 		len = ft_strlen(parser->map2d[parser->start_line_map]);
-		x = 0;
-		while (x < parser->map_width)
-		{
-			if (x < len)
-				c = parser->map2d[parser->start_line_map][x];
-			else
-				c = ' ';
-			if (c == '1')
-				parser->map1[y][x] = 1; 
-			else if (c == '0')
-				parser->map1[y][x] = 0;
-			else if (c == ' ' || c == '\t')
-				parser->map1[y][x] = -1;
-			else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
-			{
-				if (parser->player_found)
-				{
-					printf("Found second player at y=%d, x=%d (char=%c), first was at y=%d, x=%d (char=%c)\n", 
-						y, x, c, parser->player_pos_y, parser->player_pos_x, parser->player_dir);
-					exit_error("Multiple players found");
-				}
-				parser->map1[y][x] = 0;
-				parser->player_found = true;
-				parser->player_pos_x = x;
-				parser->player_pos_y = y;
-				parser->player_dir = c;
-			}
-			else if (c != '\n' && c != '\0')
-				exit_error("Invalid character in map");
-			x++;
-		}
-		y++;
+		x = -1;
+		while (++x < parser->map_width)
+			check_assign_map_elements(parser, x, y, len);
 		parser->start_line_map++;
 	}
 	parser->y2 = y;

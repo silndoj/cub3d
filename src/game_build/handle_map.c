@@ -48,16 +48,16 @@ void	convert_map_to_int(t_parser *parser)
 	parser->map_height = map_height;
 	parser->map_width = map_width;
 	if (map_height == 0 || map_width == 0)
-		exit_error("Invalid map dimensions");
+		exit_error("Invalid map dimensions", parser);
 }
 
 void	init_wall_array(int ***wall, t_parser *parser)
 {
 	int	i;
 
-	(*wall) = ft_malloc(sizeof(int *) * parser->map_height);
+	(*wall) = malloc(sizeof(int *) * parser->map_height);
 	if (!(*wall))
-		exit_error("failed allocation for check_walls()->H");
+		exit_error("failed allocation for check_walls()->H", parser);
 	i = 0;
 	while (i < parser->map_height)
 	{
@@ -70,7 +70,7 @@ void	init_wall_array(int ***wall, t_parser *parser)
 		(*wall)[i] = ft_calloc(parser->map_width, sizeof(int));
 		if (!(*wall)[i])
 		{
-			exit_error("failed allocation in check_wall()->W");
+			exit_error("failed allocation in check_wall()->W", parser);
 		}
 		i++;
 	}
@@ -92,7 +92,7 @@ void	check_walkable_map(t_parser *parser, int **wall)
 				flood_fill(parser, wall, y, x);
 				if (parser->invalid_map)
 				{
-					exit_error("Map is not completely enclosed by walls");
+					exit_error("Map is not enclosed by walls", parser);
 				}
 				y = parser->map_height;
 				break ;
@@ -114,9 +114,11 @@ void	check_walls(t_parser *parser)
 		flood_fill(parser, wall, parser->player_pos_y, parser->player_pos_x);
 		if (parser->invalid_map)
 		{
-			exit_error("Map is not completely enclosed by walls");
+			free_int_array(wall, parser->map_height);
+			exit_error("Map is not completely enclosed by walls", parser);
 		}
 	}
 	else
 		check_walkable_map(parser, wall);
+	parser->wall_arr = wall;
 }

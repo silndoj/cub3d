@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 18:13:23 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 04:56:02 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 22:50:00 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	void	ft_clean_split(char **split, int index)
 	}
 }
 
-static	void	check_rgb_count(char **value, int i)
+static	void	check_rgb_count(char **value, int i, t_parser *parser)
 {
 	while (value && value[i])
 		i++;
@@ -35,11 +35,11 @@ static	void	check_rgb_count(char **value, int i)
 			ft_clean_split(value, i);
 			free(value);
 		}
-		exit_error("Invalid Color Format.. try (R,G,B)");
+		exit_error("Invalid Color Format.. try (R,G,B)", parser);
 	}
 }
 
-static int	validate_rgb(t_color *color, char **value, int i)
+static int	validate_rgb(t_color *color, char **value, int i, t_parser *parser)
 {
 	color->r = ft_atoi(value[0]);
 	color->g = ft_atoi(value[1]);
@@ -50,7 +50,7 @@ static int	validate_rgb(t_color *color, char **value, int i)
 	{
 		ft_clean_split(value, i);
 		free(value);
-		exit_error("R,G,B values should be between the range of 0 to 255");
+		exit_error("values should be between the range of 0 to 255", parser);
 	}
 	return (0);
 }
@@ -63,15 +63,20 @@ int	handle_floor_color(char *trim, t_parser *parser)
 
 	floor = ft_strtrim(trim + 1, " \t");
 	if (!floor)
-		exit_error("Failed to find FLOOR_COLOR");
+		exit_error("Failed to find FLOOR_COLOR", parser);
 	value = ft_split(floor, ',');
 	free(floor);
 	i = 0;
-	check_rgb_count(value, i);
-	validate_rgb(&parser->floor, value, i);
+	check_rgb_count(value, i, parser);
+	validate_rgb(&parser->floor, value, i, parser);
 	parser->floor_set = true;
 	parser->f_found = true;
-	ft_clean_split(value, i);
+	i = 0;
+	while (i < 3)
+	{
+		free(value[i]);
+		i++;
+	}
 	free(value);
 	return (0);
 }
@@ -84,15 +89,20 @@ int	handle_ceiling_color(char *trim, t_parser *parser)
 
 	ceiling = ft_strtrim(trim + 1, " \t");
 	if (!ceiling)
-		exit_error("Failed to find CEILING_COLOR");
+		exit_error("Failed to find CEILING_COLOR", parser);
 	value = ft_split(ceiling, ',');
 	free(ceiling);
 	i = 0;
-	check_rgb_count(value, i);
-	validate_rgb(&parser->floor, value, i);
+	check_rgb_count(value, i, parser);
+	validate_rgb(&parser->ceiling, value, i, parser);
 	parser->ceiling_set = true;
 	parser->c_found = true;
-	ft_clean_split(value, i);
+	i = 0;
+	while (i < 3)
+	{
+		free(value[i]);
+		i++;
+	}
 	free(value);
 	return (0);
 }

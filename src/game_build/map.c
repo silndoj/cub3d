@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 07:40:39 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/11 00:51:52 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 22:41:07 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	put_map_elements(t_parser *parser)
 	parser->y2 = y;
 	parser->x = x;
 	if (!parser->player_found)
-		exit_error("Missing player position");
+		exit_error("Missing player position", parser);
 	parser->start_line_map = start_line;
 	return (0);
 }
@@ -56,7 +56,7 @@ void	check_assign_map_elements(t_parser *parser, int x, int y, int len)
 	else if (c == 'N' || c == 'S' || c == 'E' || c == 'W')
 	{
 		if (parser->player_found)
-			exit_error("Multiple players found");
+			exit_error("Multiple players found", parser);
 		parser->map1[y][x] = 0;
 		parser->player_found = true;
 		parser->player_pos_x = x;
@@ -64,7 +64,7 @@ void	check_assign_map_elements(t_parser *parser, int x, int y, int len)
 		parser->player_dir = c;
 	}
 	else if (c != '\n' && c != '\0')
-		exit_error("Invalid character in map");
+		exit_error("Invalid character in map", parser);
 }
 
 void	pass_data_to_final_map(t_parser *parser)

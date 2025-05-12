@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 00:02:44 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 07:14:29 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 22:47:35 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/cub3d.h"
 #include <unistd.h>
 
-int	exit_error(const char *msg)
+int	exit_error(const char *msg, t_parser *parser)
 {
 	ft_putstr_fd("Error \n", STDERR_FILENO);
 	ft_putstr_fd((char *)msg, STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
-	free_allocations();
+	free_parser(parser);
 	exit(EXIT_FAILURE);
 }
 

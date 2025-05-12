@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 21:37:21 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/11 01:08:48 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:04:27 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_parser
 {
 	char	**map2d;
 	int		**map1;
+	int		**wall_arr;
 	char	*no_texture;
 	char	*so_texture;
 	char	*we_texture;
@@ -143,6 +144,10 @@ void		init_wall_array(int ***wall, t_parser *parser);
 void		check_walls(t_parser *parser);
 void		check_walkable_map(t_parser *parser, int **wall);
 void		convert_map_to_int(t_parser *parser);
+void		set_north_south(t_game *game);
+void		set_east_west(t_game *game);
+void		set_player_direction(t_game *game);
+void		set_color_position(t_game *game);
 //Util_Box/parser_utils.c
 int			ft_is_empty_line(char *line);
 int			map_line(char *line);
@@ -152,7 +157,7 @@ void		extra_char(t_parser *parser);
 //***utils_box/ERROR.C
 void		errno_exit(void);
 void		errno_error_mlx(void);
-int			exit_error(const char *msg);
+int			exit_error(const char *msg, t_parser *parser);
 
 //***utils_box/MAP_DRAW.C 
 void		cast_ray(t_game *g);
@@ -175,5 +180,7 @@ int			handle_west_texture(char *trim, t_parser *parser);
 //COLORS
 int			handle_floor_color(char *trim, t_parser *parser);
 int			handle_ceiling_color(char *trim, t_parser *parser);
-
+//FREE
+void		free_int_array(int **wall, int height);
+void		free_parser(t_parser *parser);
 #endif

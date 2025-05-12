@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 15:45:39 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 07:55:15 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:06:56 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 void	ft_putchar_count(char c, int *count)
 {
 	if (write(1, &c, 1) < 0)
-	(*count)++;
+		(*count)++;
 }

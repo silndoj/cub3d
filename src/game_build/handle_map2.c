@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/10 05:37:45 by tndreka           #+#    #+#             */
-/*   Updated: 2025/05/10 05:41:28 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:04:06 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	find_start_of_map(t_parser *parser, int start_i)
 			continue ;
 		}
 	}
-	exit_error("Could not find start of map");
+	exit_error("Could not find start of map", parser);
 	return (1);
 }
 
@@ -63,13 +63,13 @@ int	create_int_array(t_parser *parser)
 
 	parser->map1 = ft_malloc(sizeof(int *) * parser->map_height);
 	if (!parser->map1)
-		exit_error("Failed to allocate memory for rows");
+		exit_error("Failed to allocate memory for rows", parser);
 	i = 0;
 	while (i < parser->map_height)
 	{
 		parser->map1[i] = ft_malloc(sizeof(int) * parser->map_width);
 		if (!parser->map1[i])
-			exit_error("Failed to allocate memory for columns");
+			exit_error("Failed to allocate memory for columns", parser);
 		j = 0;
 		while (j < parser->map_width)
 		{
@@ -92,15 +92,11 @@ int	flood_fill(t_parser *parser, int **wall, int y, int x)
 		|| x == 0 || x == parser->map_width - 1)
 	{
 		parser->invalid_map = true;
-		exit_error("Map is not properly enclosed by walls");
+		exit_error("Map is not properly enclosed by walls", parser);
 	}
 	flood_fill(parser, wall, y + 1, x);
 	flood_fill(parser, wall, y - 1, x);
 	flood_fill(parser, wall, y, x + 1);
 	flood_fill(parser, wall, y, x - 1);
-	flood_fill(parser, wall, y + 1, x + 1);
-	flood_fill(parser, wall, y + 1, x - 1);
-	flood_fill(parser, wall, y - 1, x + 1);
-	flood_fill(parser, wall, y - 1, x - 1);
 	return (0);
 }

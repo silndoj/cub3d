@@ -6,7 +6,7 @@
 /*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 12:56:10 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/11 01:21:21 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/11 23:28:29 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,50 +61,6 @@ void	dda_algo(t_game *g)
 	}
 	dda_loop(g);
 }
-
-// void	put_textures(t_game *g, int tex_index, int x)
-// {
-// 	double		w_x;
-// 	double		st;
-// 	double		t_p;
-// 	uint32_t	t_c;
-
-// 	g->start = g->parser.d_s;
-// 	g->end = g->parser.d_e;
-// 	draw_ceiling_and_floor(g, x);
-// 	if (g->textures[tex_index])
-// 	{
-// 		if (g->player.side)
-// 			w_x = g->player.px + g->player.pw_dist * g->player.rdir_x;
-// 		else
-// 			w_x = g->player.py + g->player.pw_dist * g->player.rdir_y;
-// 		w_x -= floor(w_x);
-// 		g->parser.t_x = (int)(w_x * (double)g->textures[tex_index]->width);
-// 		if ((g->player.side == 0 && g->player.rdir_x < 0)
-// 			|| (g->player.side == 1 && g->player.rdir_y > 0))
-// 			g->parser.t_x = g->textures[tex_index]->width - g->parser.t_x - 1;
-// 		st = (double)g->textures[tex_index]->height / g->parser.l_h;
-// 		t_p = (g->parser.d_s - HEIGHT / 2 + g->parser.l_h / 2) * st;
-// 		g->parser.y1 = g->parser.d_s;
-// 		while (g->parser.y1 < g->parser.d_e)
-// 		{
-// 			g->parser.t_y = (int)t_p & (g->textures[tex_index]->height - 1);
-// 			t_c = ((uint32_t *) g->textures[tex_index]->pixels)
-// 			[g->parser.t_y * g->textures[tex_index]->width + g->parser.t_x];
-// 			if (g->player.side)
-// 				t_c = (t_c >> 1) & 0x7F7F7F7F;
-// 			mlx_put_pixel(g->img, x, g->parser.y1++, t_c);
-// 			t_p += st;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		t_c = 0xFFAAAAAA;
-// 		g->y = g->start;
-// 		while (g->y < g->end)
-// 			mlx_put_pixel(g->img, x, g->y++, t_c);
-// 	}
-// }
 
 void	put_textures(t_game *g, int tex_index, int x)
 {

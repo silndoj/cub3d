@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 12:47:41 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 07:06:52 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:07:04 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,5 @@ void	ft_putstr_count(char *ptr, int *count)
 	while (ptr[i])
 		i++;
 	if (write(1, ptr, i) < 0)
-	*count += i;
+		*count += i;
 }

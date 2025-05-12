@@ -1,7 +1,7 @@
 EXEC		:= cub3D
 
 CC			= cc
-CFLAGS		= -Wextra -Wall -Werror -Wunreachable-code -Ofast
+CFLAGS		= -g -Wextra -Wall -Werror -Wunreachable-code -Ofast
 
 LIBFT		= src/inc/libft/libft.a
 LIBFT_D		= src/inc/libft
@@ -22,7 +22,7 @@ $(LIBFT):
 
 $(EXEC): MLX42 $(LIBFT) $(OBJ)
 	@echo "$(NC)LINKING : $(GREEN)CUB3D APP"
-	@$(CC) $(CFLAGS) -o $(EXEC) $(OBJ) -LMLX42/build -lmlx42 -IMLX42/include -lglfw -Lsrc/inc/libft -lft
+	@$(CC) $(CFLAGS) -o $(EXEC) $(OBJ) -LMLX42/build -lmlx42 -IMLX42/include -lglfw -Lsrc/inc/libft -lft -lm
 	@echo "$(NC)BUILD : $(GREEN)SUCCESSFUL"
 
 MLX42:

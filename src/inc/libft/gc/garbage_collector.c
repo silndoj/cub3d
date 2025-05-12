@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 01:40:25 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 07:12:25 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:05:51 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	**get_allocation_array(size_t *count)
 		if (allocation_array == NULL)
 		{
 			if (write(1, "Failed to initialize allocation array.\n", 39) < 0)
-			return (NULL);
+				return (NULL);
 		}
 		allocation_count = 0;
 		*count = allocation_count;
@@ -53,7 +53,7 @@ void	add_to_allocation_array(void *ptr)
 	if (count >= 10000)
 	{
 		if (write(1, "Reached maximum allocation capacity.\n", 37) < 0)
-		return ;
+			return ;
 	}
 	allocation_array[count] = ptr;
 }
@@ -66,7 +66,7 @@ void	*ft_malloc(int size)
 	if (ptr == NULL)
 	{
 		if (write(1, "Failed to initialize allocation array.\n", 39) < 0)
-		free_allocations();
+			free_allocations();
 		return (NULL);
 	}
 	add_to_allocation_array(ptr);
@@ -80,6 +80,5 @@ void	free_allocations(void)
 
 	allocation_array = get_allocation_array(&count);
 	free_2d(allocation_array, count);
-	if (write(1, "All allocated memory freed.\n", 28) < 0)
-		return ;
+	return ;
 }

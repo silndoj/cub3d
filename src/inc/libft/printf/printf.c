@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   printf.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tndreka <tndreka@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: tndreka < tndreka@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 12:36:25 by silndoj           #+#    #+#             */
-/*   Updated: 2025/05/10 07:07:44 by tndreka          ###   ########.fr       */
+/*   Updated: 2025/05/12 23:07:22 by tndreka          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	format_c(const char *s, int *count, va_list args)
 	else
 	{
 		if (write(1, s, 1) < 0)
-		count++;
+			count++;
 	}
 }
 
@@ -53,8 +53,8 @@ int	ft_printf(const char *s, ...)
 	{
 		if (*s != '%')
 		{
-			if(write(1, s++, 1) < 0)
-			count++;
+			if (write(1, s++, 1) < 0)
+				count++;
 		}
 		if (*s == '%')
 		{

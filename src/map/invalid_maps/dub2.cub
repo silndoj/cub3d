@@ -1,8 +1,7 @@
-NO ./src/textures/bunker_galvanized.png
-SO ./src/textures/snow1.png
-WE ./src/textures/tileable8d.png
-EA ./src/textures/woodroofing.png
-
+NO ./textures/wood.png
+SO ./textures/wall_1.png
+WE ./textures/wall_2.png
+EA ./textures/wall_3.png
 
 F 220,100,0
 C 225,30,0
